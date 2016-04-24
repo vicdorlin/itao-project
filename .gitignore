@@ -1,0 +1,6 @@
+.metadata/
+.idea/
+/target/
+/tmp/
+/logs/
+*.o *.lo *.la *.al .libs *.so *.so.[0-9]* *.a *.pyc *.pyo __pycache__ *.rej *~ #*# .#* .*.swp .DS_Store target classes .classpath .tomcatplugin work .settings target classes .classpath .tomcatplugin work .settings *.log .project .myeclipse .mymetadata .classpath *.iml *.gitignore
