@@ -25,6 +25,18 @@
             <artifactId>itao-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- idea jetty插件相关servlet依赖包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- idea jetty插件相关servlet依赖包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,17 +53,17 @@
             <!-- jetty插件 -->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
                 <configuration>
-                    <stopPort>9988</stopPort>
-                    <stopKey>foo</stopKey>
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
                     <connectors>
-                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
+                    <!-- 自动发现改变是时间，进行热部署，默认是0，不热部署 -->
+                    <scanIntervalSeconds>1</scanIntervalSeconds>
                     <webAppConfig>
                         <contextPath>/</contextPath>
                     </webAppConfig>

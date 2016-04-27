@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>欢迎使用淘淘管理后台</title>
+		<title>桃之夭夭，爱桃，爱自己</title>
 	</head>
 	<body>
 		<h1>Hello World</h1>
