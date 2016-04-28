@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.taotao.SqlMappers.TbOrderItemMapper" >
-  <resultMap id="BaseResultMap" type="com.taotao.pojo.TbOrderItem" >
+<mapper namespace="com.itao.mapper.TbOrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.itao.pojo.TbOrderItem" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="item_id" property="itemId" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
     delete from tb_order_item
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.taotao.pojo.TbOrderItem" >
+  <insert id="insert" parameterType="com.itao.pojo.TbOrderItem" >
     insert into tb_order_item (id, item_id, order_id, 
       num, title, price, total_fee, 
       pic_path)
@@ -32,7 +32,7 @@
       #{num,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=BIGINT}, #{totalFee,jdbcType=BIGINT}, 
       #{picPath,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.taotao.pojo.TbOrderItem" >
+  <insert id="insertSelective" parameterType="com.itao.pojo.TbOrderItem" >
     insert into tb_order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.taotao.pojo.TbOrderItem" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbOrderItem" >
     update tb_order_item
     <set >
       <if test="itemId != null" >
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.taotao.pojo.TbOrderItem" >
+  <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbOrderItem" >
     update tb_order_item
     set item_id = #{itemId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=VARCHAR},

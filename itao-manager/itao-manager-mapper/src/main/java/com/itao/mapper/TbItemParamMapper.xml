@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.taotao.SqlMappers.TbItemParamItemMapper" >
-  <resultMap id="BaseResultMap" type="com.taotao.pojo.TbItemParamItem" >
+<mapper namespace="com.itao.mapper.TbItemParamMapper" >
+  <resultMap id="BaseResultMap" type="com.itao.pojo.TbItemParam" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="item_cat_id" property="itemCatId" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="updated" property="updated" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.taotao.pojo.TbItemParamItem" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.itao.pojo.TbItemParam" extends="BaseResultMap" >
     <result column="param_data" property="paramData" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, item_id, created, updated
+    id, item_cat_id, created, updated
   </sql>
   <sql id="Blob_Column_List" >
     param_data
@@ -21,27 +21,27 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from tb_item_param_item
+    from tb_item_param
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from tb_item_param_item
+    delete from tb_item_param
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.taotao.pojo.TbItemParamItem" >
-    insert into tb_item_param_item (id, item_id, created, 
+  <insert id="insert" parameterType="com.itao.pojo.TbItemParam" >
+    insert into tb_item_param (id, item_cat_id, created, 
       updated, param_data)
-    values (#{id,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{itemCatId,jdbcType=BIGINT}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP}, #{paramData,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.taotao.pojo.TbItemParamItem" >
-    insert into tb_item_param_item
+  <insert id="insertSelective" parameterType="com.itao.pojo.TbItemParam" >
+    insert into tb_item_param
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="itemId != null" >
-        item_id,
+      <if test="itemCatId != null" >
+        item_cat_id,
       </if>
       <if test="created != null" >
         created,
@@ -57,8 +57,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="itemId != null" >
-        #{itemId,jdbcType=BIGINT},
+      <if test="itemCatId != null" >
+        #{itemCatId,jdbcType=BIGINT},
       </if>
       <if test="created != null" >
         #{created,jdbcType=TIMESTAMP},
@@ -71,11 +71,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.taotao.pojo.TbItemParamItem" >
-    update tb_item_param_item
+  <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbItemParam" >
+    update tb_item_param
     <set >
-      <if test="itemId != null" >
-        item_id = #{itemId,jdbcType=BIGINT},
+      <if test="itemCatId != null" >
+        item_cat_id = #{itemCatId,jdbcType=BIGINT},
       </if>
       <if test="created != null" >
         created = #{created,jdbcType=TIMESTAMP},
@@ -89,17 +89,17 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.taotao.pojo.TbItemParamItem" >
-    update tb_item_param_item
-    set item_id = #{itemId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.itao.pojo.TbItemParam" >
+    update tb_item_param
+    set item_cat_id = #{itemCatId,jdbcType=BIGINT},
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP},
       param_data = #{paramData,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.taotao.pojo.TbItemParamItem" >
-    update tb_item_param_item
-    set item_id = #{itemId,jdbcType=BIGINT},
+  <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbItemParam" >
+    update tb_item_param
+    set item_cat_id = #{itemCatId,jdbcType=BIGINT},
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
