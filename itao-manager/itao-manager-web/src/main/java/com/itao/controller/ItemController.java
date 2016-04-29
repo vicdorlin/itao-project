@@ -1,5 +1,7 @@
 package com.itao.controller;
 
+import com.itao.dto.request.EUDataGridListRequestVo;
+import com.itao.dto.response.EUDataGridResultVo;
 import com.itao.pojo.TbItem;
 import com.itao.service.ItemService;
 import org.springframework.stereotype.Controller;
@@ -22,5 +24,11 @@ public class ItemController {
     @RequestMapping("info/{itemId}")
     public TbItem getItemById(@PathVariable Long itemId){
         return itemService.getItemById(itemId);
+    }
+
+    @ResponseBody
+    @RequestMapping("list")
+    public EUDataGridResultVo getItemList(Integer page,Integer rows){
+        return itemService.getItemList(new EUDataGridListRequestVo(page,rows));
     }
 }
