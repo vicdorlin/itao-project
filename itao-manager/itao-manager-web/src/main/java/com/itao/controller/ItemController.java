@@ -13,12 +13,13 @@ import javax.annotation.Resource;
  * Created by Vicdor on 2016-04-29-0029.
  */
 @Controller
+@RequestMapping("item")
 public class ItemController {
     @Resource
     private ItemService itemService;
 
     @ResponseBody
-    @RequestMapping("/item/{itemId}")
+    @RequestMapping("info/{itemId}")
     public TbItem getItemById(@PathVariable Long itemId){
         return itemService.getItemById(itemId);
     }
