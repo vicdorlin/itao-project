@@ -1,7 +1,9 @@
 package com.itao.mapper;
 
 import com.itao.pojo.TbItem;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TbItemMapper {
     int deleteByPrimaryKey(Long id);
 
