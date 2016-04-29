@@ -28,7 +28,7 @@ public class ItemController {
 
     @ResponseBody
     @RequestMapping("list")
-    public EUDataGridResultVo getItemList(Integer page,Integer rows){
-        return itemService.getItemList(new EUDataGridListRequestVo(page,rows));
+    public EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo){
+        return itemService.getItemList(requestVo);
     }
 }
