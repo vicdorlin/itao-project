@@ -1,11 +1,13 @@
 package com.itao.controller;
 
+import com.itao.util.FtpUtil;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -38,5 +40,12 @@ public class TestFtp {
         //关闭连接
         ftpClient.logout();
         if(inputStream != null) inputStream.close();
+    }
+
+    @Test
+    public void testFtpUtil() throws FileNotFoundException {
+        //读取本地文件
+        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\Vicdor\\Desktop\\6-15011FU549.jpg"));
+        FtpUtil.uploadFile("192.168.0.103",21,"ftpuser","0","/home/ftpuser/nginx/html/images","20160506","888.jpg",inputStream);
     }
 }
