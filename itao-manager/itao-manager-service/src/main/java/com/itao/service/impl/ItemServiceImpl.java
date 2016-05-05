@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService{
         List<TbItem> list = tbItemMapper.getListByMap(map);
         EUDataGridResultVo resultVo = new EUDataGridResultVo();
         resultVo.setRows(list);
-        PageInfo<TbItem> pageInfo = new PageInfo<TbItem>(list);
+        PageInfo<TbItem> pageInfo = new PageInfo<>(list);
         resultVo.setTotal(pageInfo.getTotal());
         return resultVo;
     }
