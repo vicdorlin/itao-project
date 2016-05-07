@@ -46,6 +46,6 @@ public class TestFtp {
     public void testFtpUtil() throws FileNotFoundException {
         //读取本地文件
         FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\Vicdor\\Desktop\\6-15011FU549.jpg"));
-        FtpUtil.uploadFile("192.168.0.103",21,"ftpuser","0","/home/ftpuser/nginx/html/images","20160506","888.jpg",inputStream);
+        FtpUtil.uploadFile("192.168.0.103",21,"ftpuser","0","/home/ftpuser/nginx/html/images","items/20160507","888.jpg",inputStream);
     }
 }
