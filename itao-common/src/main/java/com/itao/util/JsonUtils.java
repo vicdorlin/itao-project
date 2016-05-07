@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -22,7 +21,7 @@ public class JsonUtils {
      * @param data
      * @return
      */
-    public static String objectToJson(Object data) {
+    public static String toJson(Object data) {
     	try {
 			String string = MAPPER.writeValueAsString(data);
 			return string;
@@ -39,7 +38,7 @@ public class JsonUtils {
      * @param beanType 对象中的object类型
      * @return
      */
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+    public static <T> T toObject(String jsonData, Class<T> beanType) {
         try {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;

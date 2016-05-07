@@ -1,8 +1,8 @@
 package com.itao.controller;
 
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 import com.itao.service.PictureService;
+import com.itao.util.JsonUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +35,6 @@ public class PictureController {
             resultMap.put("message","图片上传异常，请联系管理员");
         }
         //由于前端插件的兼容性（不完全支持firefox)，将数据转换为json字符串返回
-        return new Gson().toJson(resultMap);
+        return JsonUtils.toJson(resultMap);
     }
 }
