@@ -29,5 +29,5 @@ public interface ItemService {
      * @param itemAddVo 封装接收前端传来的数据
      * @return
      */
-    ItaoResult addItem(ItemAddVo itemAddVo);
+    ItaoResult addItem(ItemAddVo itemAddVo,String itemDesc);
 }
