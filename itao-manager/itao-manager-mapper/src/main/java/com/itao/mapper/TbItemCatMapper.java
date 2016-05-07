@@ -1,9 +1,8 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbItemCat;
+import com.itao.po.TbItemCat;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TbItemCatMapper {
     int deleteByPrimaryKey(Long id);

@@ -1,4 +1,4 @@
-package com.itao.dto.response;
+package com.itao.vo.response;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class ItaoResult {
      * @param clazz ItaoResult中的object类型
      * @return
      */
-    public static ItaoResult formatToPojo(String jsonData, Class<?> clazz) {
+    public static ItaoResult formatToPo(String jsonData, Class<?> clazz) {
         try {
             if (clazz == null) {
                 return MAPPER.readValue(jsonData, ItaoResult.class);

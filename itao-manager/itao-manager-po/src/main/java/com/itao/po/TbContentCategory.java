@@ -1,8 +1,8 @@
-package com.itao.pojo;
+package com.itao.po;
 
 import java.util.Date;
 
-public class TbItemCat {
+public class TbContentCategory {
     private Long id;
 
     private Long parentId;

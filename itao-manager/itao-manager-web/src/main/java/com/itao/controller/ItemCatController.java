@@ -1,6 +1,6 @@
 package com.itao.controller;
 
-import com.itao.dto.response.EUTreeNode;
+import com.itao.vo.response.EUTreeNode;
 import com.itao.service.ItemCatService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

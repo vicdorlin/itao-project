@@ -16,7 +16,7 @@ public class JsonUtils {
 
     /**
      * 将对象转换成json字符串。
-     * <p>Title: pojoToJson</p>
+     * <p>Title: poToJson</p>
      * <p>Description: </p>
      * @param data
      * @return
@@ -49,7 +49,7 @@ public class JsonUtils {
     }
     
     /**
-     * 将json数据转换成pojo对象list
+     * 将json数据转换成po对象list
      * <p>Title: jsonToList</p>
      * <p>Description: </p>
      * @param jsonData

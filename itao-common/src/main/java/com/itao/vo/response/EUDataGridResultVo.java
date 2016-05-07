@@ -1,4 +1,4 @@
-package com.itao.dto.response;
+package com.itao.vo.response;
 
 import java.util.List;
 

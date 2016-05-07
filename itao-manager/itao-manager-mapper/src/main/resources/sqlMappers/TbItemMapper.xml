@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itao.mapper.TbItemMapper">
-    <resultMap id="BaseResultMap" type="com.itao.pojo.TbItem">
+    <resultMap id="BaseResultMap" type="com.itao.po.TbItem">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="sell_point" property="sellPoint" jdbcType="VARCHAR"/>
@@ -43,7 +43,7 @@
     delete from tb_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="com.itao.pojo.TbItem">
+    <insert id="insert" parameterType="com.itao.po.TbItem">
     insert into tb_item (id, title, sell_point, 
       price, num, barcode, 
       image, cid, status, 
@@ -53,7 +53,7 @@
       #{image,jdbcType=VARCHAR}, #{cid,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, 
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
-    <insert id="insertSelective" parameterType="com.itao.pojo.TbItem">
+    <insert id="insertSelective" parameterType="com.itao.po.TbItem">
         insert into tb_item
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -126,7 +126,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbItem">
+    <update id="updateByPrimaryKeySelective" parameterType="com.itao.po.TbItem">
         update tb_item
         <set>
             <if test="title != null">
@@ -162,7 +162,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbItem">
+    <update id="updateByPrimaryKey" parameterType="com.itao.po.TbItem">
     update tb_item
     set title = #{title,jdbcType=VARCHAR},
       sell_point = #{sellPoint,jdbcType=VARCHAR},

@@ -1,4 +1,4 @@
-package com.itao.dto.request;
+package com.itao.vo.request;
 
 /**EasyUi列表请求参数封装
  * Created by Vicdor on 2016-04-30-0030.

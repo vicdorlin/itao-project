@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbContentCategory;
+import com.itao.po.TbContentCategory;
 
 public interface TbContentCategoryMapper {
     int deleteByPrimaryKey(Long id);

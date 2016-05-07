@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbItem;
+import com.itao.po.TbItem;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

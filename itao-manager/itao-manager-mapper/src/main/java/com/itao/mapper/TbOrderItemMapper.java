@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbOrderItem;
+import com.itao.po.TbOrderItem;
 
 public interface TbOrderItemMapper {
     int deleteByPrimaryKey(String id);

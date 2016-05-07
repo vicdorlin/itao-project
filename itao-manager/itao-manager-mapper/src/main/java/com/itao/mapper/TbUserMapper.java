@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbUser;
+import com.itao.po.TbUser;
 
 public interface TbUserMapper {
     int deleteByPrimaryKey(Long id);

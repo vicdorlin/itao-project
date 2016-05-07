@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.itao</groupId>
-            <artifactId>itao-manager-pojo</artifactId>
+            <artifactId>itao-manager-po</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!-- Mybatis -->

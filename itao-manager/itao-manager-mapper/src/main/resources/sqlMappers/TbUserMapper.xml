@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itao.mapper.TbUserMapper" >
-  <resultMap id="BaseResultMap" type="com.itao.pojo.TbUser" >
+  <resultMap id="BaseResultMap" type="com.itao.po.TbUser" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
     delete from tb_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.itao.pojo.TbUser" >
+  <insert id="insert" parameterType="com.itao.po.TbUser" >
     insert into tb_user (id, username, password, 
       phone, email, created, 
       updated)
@@ -31,7 +31,7 @@
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.itao.pojo.TbUser" >
+  <insert id="insertSelective" parameterType="com.itao.po.TbUser" >
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,7 +80,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.itao.po.TbUser" >
     update tb_user
     <set >
       <if test="username != null" >
@@ -104,7 +104,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbUser" >
+  <update id="updateByPrimaryKey" parameterType="com.itao.po.TbUser" >
     update tb_user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

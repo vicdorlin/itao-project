@@ -1,6 +1,6 @@
 package com.itao.service;
 
-import com.itao.dto.response.EUTreeNode;
+import com.itao.vo.response.EUTreeNode;
 
 import java.util.List;
 

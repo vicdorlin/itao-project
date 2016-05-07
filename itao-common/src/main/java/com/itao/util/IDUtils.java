@@ -37,7 +37,7 @@ public class IDUtils {
 	/**
 	 * 商品id生成
 	 */
-	public static long genItemId() {
+	public static long generateItemId() {
 		//取当前时间的长整形值包含毫秒
 		long millis = System.currentTimeMillis();
 		//long millis = System.nanoTime();
@@ -52,6 +52,6 @@ public class IDUtils {
 	
 	public static void main(String[] args) {
 		for(int i=0;i< 100;i++)
-		System.out.println(genItemId());
+		System.out.println(generateItemId());
 	}
 }

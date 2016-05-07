@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbItemDesc;
+import com.itao.po.TbItemDesc;
 
 public interface TbItemDescMapper {
     int deleteByPrimaryKey(Long itemId);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itao.mapper.TbContentCategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.itao.pojo.TbContentCategory" >
+  <resultMap id="BaseResultMap" type="com.itao.po.TbContentCategory" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
     delete from tb_content_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.itao.pojo.TbContentCategory" >
+  <insert id="insert" parameterType="com.itao.po.TbContentCategory" >
     insert into tb_content_category (id, parent_id, name, 
       status, sort_order, is_parent, 
       created, updated)
@@ -32,7 +32,7 @@
       #{status,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{isParent,jdbcType=BIT}, 
       #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.itao.pojo.TbContentCategory" >
+  <insert id="insertSelective" parameterType="com.itao.po.TbContentCategory" >
     insert into tb_content_category
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbContentCategory" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.itao.po.TbContentCategory" >
     update tb_content_category
     <set >
       <if test="parentId != null" >
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbContentCategory" >
+  <update id="updateByPrimaryKey" parameterType="com.itao.po.TbContentCategory" >
     update tb_content_category
     set parent_id = #{parentId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},

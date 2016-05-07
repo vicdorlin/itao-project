@@ -1,4 +1,4 @@
-package com.itao.pojo;
+package com.itao.po;
 
 import java.util.Date;
 

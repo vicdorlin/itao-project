@@ -1,4 +1,4 @@
-package com.itao.dto.response;
+package com.itao.vo.response;
 
 /**EasyUi树形控件节点格式
  * Created by Vicdor on 2016-05-04-0004.

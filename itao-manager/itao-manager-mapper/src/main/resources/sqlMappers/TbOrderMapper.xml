@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itao.mapper.TbOrderMapper" >
-  <resultMap id="BaseResultMap" type="com.itao.pojo.TbOrder" >
+  <resultMap id="BaseResultMap" type="com.itao.po.TbOrder" >
     <id column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="payment" property="payment" jdbcType="VARCHAR" />
     <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
@@ -35,7 +35,7 @@
     delete from tb_order
     where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.itao.pojo.TbOrder" >
+  <insert id="insert" parameterType="com.itao.po.TbOrder" >
     insert into tb_order (order_id, payment, payment_type, 
       post_fee, status, create_time, 
       update_time, payment_time, consign_time, 
@@ -49,7 +49,7 @@
       #{shippingCode,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{buyerMessage,jdbcType=VARCHAR}, 
       #{buyerNick,jdbcType=VARCHAR}, #{buyerRate,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.itao.pojo.TbOrder" >
+  <insert id="insertSelective" parameterType="com.itao.po.TbOrder" >
     insert into tb_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
@@ -158,7 +158,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.itao.pojo.TbOrder" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.itao.po.TbOrder" >
     update tb_order
     <set >
       <if test="payment != null" >
@@ -212,7 +212,7 @@
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.itao.pojo.TbOrder" >
+  <update id="updateByPrimaryKey" parameterType="com.itao.po.TbOrder" >
     update tb_order
     set payment = #{payment,jdbcType=VARCHAR},
       payment_type = #{paymentType,jdbcType=INTEGER},

@@ -1,6 +1,6 @@
 package com.itao.mapper;
 
-import com.itao.pojo.TbOrderShipping;
+import com.itao.po.TbOrderShipping;
 
 public interface TbOrderShippingMapper {
     int deleteByPrimaryKey(String orderId);

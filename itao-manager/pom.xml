@@ -13,7 +13,7 @@
     <artifactId>itao-manager</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>itao-manager-pojo</module>
+        <module>itao-manager-po</module>
         <module>itao-manager-mapper</module>
         <module>itao-manager-service</module>
         <module>itao-manager-web</module>

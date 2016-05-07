@@ -1,8 +1,8 @@
 package com.itao.service;
 
-import com.itao.dto.request.EUDataGridListRequestVo;
-import com.itao.pojo.TbItem;
-import com.itao.dto.response.EUDataGridResultVo;
+import com.itao.vo.request.EUDataGridListRequestVo;
+import com.itao.po.TbItem;
+import com.itao.vo.response.EUDataGridResultVo;
 
 /**
  * Created by Vicdor on 2016-04-29-0029.
@@ -21,4 +21,6 @@ public interface ItemService {
      * @return
      */
     EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo);
+
+//    ItaoResult addItem()
 }
