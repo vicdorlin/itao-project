@@ -1,5 +1,7 @@
 package com.itao.po;
 
+import com.itao.util.IDUtils;
+
 import java.util.Date;
 
 public class TbItem {
@@ -111,5 +113,48 @@ public class TbItem {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    /**
+     * 商品状态枚举
+     */
+    public static enum Status {
+        NORMAL((byte) 1, "正常"),
+        UNDERCARRIAGE((byte) 2, "下架"),
+        DEL((byte) 3, "删除")
+        ;
+        private Byte value;
+        private String content;
+
+        Status(Byte value, String content) {
+            this.value = value;
+            this.content = content;
+        }
+
+        public Byte getValue() {
+            return value;
+        }
+
+        public void setValue(Byte value) {
+            this.value = value;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
+
+    /**
+     * 补全商品初始化信息
+     */
+    public void buildItem(){
+        this.id = IDUtils.generateItemId();
+        status = Status.NORMAL.getValue();
+        created = new Date();
+        updated = created;
     }
 }
