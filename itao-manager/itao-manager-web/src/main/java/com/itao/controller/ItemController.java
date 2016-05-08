@@ -1,5 +1,9 @@
 package com.itao.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
+import com.itao.mapper.TbItemMapper;
 import com.itao.vo.request.EUDataGridListRequestVo;
 import com.itao.vo.request.ItemAddVo;
 import com.itao.vo.response.EUDataGridResultVo;
@@ -14,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
+import static com.itao.util.CommonUtils.notExist;
 
 /**
  * 商品管理
@@ -24,6 +32,8 @@ import javax.annotation.Resource;
 public class ItemController {
     @Resource
     private ItemService itemService;
+    @Resource
+    private TbItemMapper tbItemMapper;
 
     /**
      * 根据Id获取商品信息
@@ -44,7 +54,19 @@ public class ItemController {
     @ResponseBody
     @RequestMapping("list")
     public EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo) {
-        return itemService.getItemList(requestVo);
+//        return itemService.getItemList(requestVo);
+        Integer page;
+        Integer rows;
+        if(notExist(requestVo) || notExist(page = requestVo.getPage()) || notExist(rows = requestVo.getRows())){
+            page = 0;
+            rows = 20;
+        }
+        Map<String,Object> map = Maps.newHashMap();
+        /*分页处理*/
+        PageHelper.startPage(page,rows);
+        List<TbItem> list = tbItemMapper.getListByMap(map);
+        PageInfo<TbItem> pageInfo = new PageInfo<>(list);
+        return new EUDataGridResultVo(list,pageInfo.getTotal());
     }
 
     /**

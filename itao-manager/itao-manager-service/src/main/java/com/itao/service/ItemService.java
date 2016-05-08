@@ -22,7 +22,7 @@ public interface ItemService {
      * @param requestVo
      * @return
      */
-    EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo);
+//    EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo);
 
     /**
      * 添加商品

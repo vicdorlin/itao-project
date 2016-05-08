@@ -36,7 +36,7 @@ public class ItemServiceImpl implements ItemService{
         return tbItemMapper.selectByPrimaryKey(itemId);
     }
 
-    @Override
+    /*@Override
     public EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo) {
         Integer page;
         Integer rows;
@@ -45,7 +45,7 @@ public class ItemServiceImpl implements ItemService{
             rows = 20;
         }
         Map<String,Object> map = Maps.newHashMap();
-        /*分页处理*/
+        *//*分页处理*//*
         PageHelper.startPage(page,rows);
         List<TbItem> list = tbItemMapper.getListByMap(map);
         EUDataGridResultVo resultVo = new EUDataGridResultVo();
@@ -53,7 +53,7 @@ public class ItemServiceImpl implements ItemService{
         PageInfo<TbItem> pageInfo = new PageInfo<>(list);
         resultVo.setTotal(pageInfo.getTotal());
         return resultVo;
-    }
+    }*/
 
     @Override
     public ItaoResult addItem(ItemAddVo itemAddVo,String itemDesc) {

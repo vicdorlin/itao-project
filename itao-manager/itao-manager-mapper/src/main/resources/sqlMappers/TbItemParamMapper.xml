@@ -10,12 +10,15 @@
     <resultMap id="ResultMapWithBLOBs" type="com.itao.po.TbItemParam" extends="BaseResultMap">
         <result column="param_data" property="paramData" jdbcType="LONGVARCHAR"/>
     </resultMap>
+    <resultMap id="ResultMapWithBLOBSAndCategoryName" type="com.itao.po.TbItemParam" extends="ResultMapWithBLOBs">
+        <result column="name" property="itemCatName" jdbcType="VARCHAR"/>
+    </resultMap>
     <sql id="Base_Column_List">
     id, item_cat_id, created, updated
-  </sql>
+    </sql>
     <sql id="Blob_Column_List">
-    param_data
-  </sql>
+        param_data
+    </sql>
     <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
@@ -25,7 +28,7 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
     <!--筛选条件-->
-    <sql id="whereSQL" >
+    <sql id="whereSQL">
         <where>
             <if test="id != null and id != ''">
                 <![CDATA[ AND id = #{id,jdbcType=BIGINT} ]]>
@@ -33,10 +36,11 @@
         </where>
     </sql>
     <!--根据Map中的条件，筛选列表-->
-    <select id="getListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <select id="getListByMap" resultMap="ResultMapWithBLOBSAndCategoryName" parameterType="java.util.Map">
         SELECT
-        <include refid="Base_Column_List"/>
-        FROM tb_item_param
+        ip.*,ic.name
+        FROM tb_item_param ip LEFT JOIN tb_item_cat ic
+        ON ip.item_cat_id = ic.id
         <include refid="whereSQL"/>
         ORDER BY id DESC
     </select>
