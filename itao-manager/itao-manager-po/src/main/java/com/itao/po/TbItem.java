@@ -135,17 +135,10 @@ public class TbItem {
             return value;
         }
 
-        public void setValue(Byte value) {
-            this.value = value;
-        }
-
         public String getContent() {
             return content;
         }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
     }
 
     /**

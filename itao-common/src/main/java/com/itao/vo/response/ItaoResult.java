@@ -96,12 +96,10 @@ public class ItaoResult {
             JsonNode jsonNode = MAPPER.readTree(jsonData);
             JsonNode data = jsonNode.get("data");
             Object obj = null;
-            if (clazz != null) {
-                if (data.isObject()) {
-                    obj = MAPPER.readValue(data.traverse(), clazz);
-                } else if (data.isTextual()) {
-                    obj = MAPPER.readValue(data.asText(), clazz);
-                }
+            if (data.isObject()) {
+                obj = MAPPER.readValue(data.traverse(), clazz);
+            } else if (data.isTextual()) {
+                obj = MAPPER.readValue(data.asText(), clazz);
             }
             return build(jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
         } catch (Exception e) {
