@@ -20,6 +20,11 @@ public class ItemCatController {
     @Resource
     private ItemCatService itemCatService;
 
+    /**
+     * 获取商品分类列表
+     * @param parentId
+     * @return
+     */
     @ResponseBody
     @RequestMapping("list")
     private List<EUTreeNode> getCatList(@RequestParam(value = "id",defaultValue = "0") Long parentId){

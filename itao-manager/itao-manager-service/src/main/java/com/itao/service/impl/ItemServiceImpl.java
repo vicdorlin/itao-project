@@ -38,13 +38,11 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo) {
-        Integer page = 0;
-        Integer rows = 20;
-        if(exist(requestVo)){
-            Integer p = requestVo.getPage();
-            Integer r = requestVo.getRows();
-            if(exist(p)) page = p;
-            if(exist(r)) rows = r;
+        Integer page;
+        Integer rows;
+        if(notExist(requestVo) || notExist(page = requestVo.getPage()) || notExist(rows = requestVo.getRows())){
+            page = 0;
+            rows = 20;
         }
         Map<String,Object> map = Maps.newHashMap();
         /*分页处理*/

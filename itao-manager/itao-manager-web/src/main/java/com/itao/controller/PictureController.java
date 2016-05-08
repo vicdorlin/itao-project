@@ -22,6 +22,11 @@ public class PictureController {
     @Resource
     private PictureService pictureService;
 
+    /**
+     * 上传图片
+     * @param uploadFile
+     * @return
+     */
     @ResponseBody
     @RequestMapping("upload")
     public String uploadImage(MultipartFile uploadFile){

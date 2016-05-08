@@ -7,8 +7,16 @@ import java.util.List;
  */
 public class EUDataGridResultVo {
 
-    private Long total;
     private List<?> rows;
+    private Long total;
+
+    public EUDataGridResultVo() {
+    }
+
+    public EUDataGridResultVo(List<?> rows, Long total) {
+        this.rows = rows;
+        this.total = total;
+    }
 
     public Long getTotal() {
         return total;
