@@ -7,7 +7,9 @@ import com.itao.mapper.TbItemParamMapper;
 import com.itao.po.TbItemParam;
 import com.itao.vo.request.EUDataGridListRequestVo;
 import com.itao.vo.response.EUDataGridResultVo;
+import com.itao.vo.response.ItaoResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,5 +49,19 @@ public class ItemParamController {
         List<TbItemParam> list = tbItemParamMapper.getListByMap(map);
         PageInfo<TbItemParam> pageInfo = new PageInfo<>(list);
         return new EUDataGridResultVo(list,pageInfo.getTotal());
+    }
+
+    /**
+     * 根据商品类目id查询商品规格
+     * @param itemCatId 商品类目id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("query/itemcatid/{itemCatId}")
+    public ItaoResult getItemParamByCid(@PathVariable Long itemCatId){
+        if(notExist(itemCatId)){
+            //TODO 异常处理
+        }
+        return ItaoResult.ok(tbItemParamMapper.getByItemCatId(itemCatId));
     }
 }
