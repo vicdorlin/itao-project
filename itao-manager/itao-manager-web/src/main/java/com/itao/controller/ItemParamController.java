@@ -5,12 +5,15 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.itao.mapper.TbItemParamMapper;
 import com.itao.po.TbItemParam;
+import com.itao.service.ItemParamService;
 import com.itao.vo.request.EUDataGridListRequestVo;
+import com.itao.vo.request.ItemParamAddVo;
 import com.itao.vo.response.EUDataGridResultVo;
 import com.itao.vo.response.ItaoResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -26,6 +29,8 @@ import static com.itao.util.CommonUtils.notExist;
 @Controller
 @RequestMapping("item/param")
 public class ItemParamController {
+    @Resource
+    private ItemParamService itemParamService;
     @Resource
     private TbItemParamMapper tbItemParamMapper;
 
@@ -63,5 +68,12 @@ public class ItemParamController {
             //TODO 异常处理
         }
         return ItaoResult.ok(tbItemParamMapper.getByItemCatId(itemCatId));
+    }
+
+    @ResponseBody
+    @RequestMapping("save/{cid}")
+    public ItaoResult addItemParam(@PathVariable Long cid,String paramData){
+        ItemParamAddVo itemParamAddVo = new ItemParamAddVo(cid,paramData);
+        return itemParamService.addItemParam(itemParamAddVo);
     }
 }

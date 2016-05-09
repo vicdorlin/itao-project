@@ -62,4 +62,9 @@ public class TbItemParam {
     public void setParamData(String paramData) {
         this.paramData = paramData == null ? null : paramData.trim();
     }
+
+    public void buildParam(){
+        created = new Date();
+        updated = created;
+    }
 }
