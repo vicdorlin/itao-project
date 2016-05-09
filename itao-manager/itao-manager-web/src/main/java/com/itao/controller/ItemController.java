@@ -37,6 +37,7 @@ public class ItemController {
 
     /**
      * 根据Id获取商品信息
+     *
      * @param itemId
      * @return
      */
@@ -48,6 +49,7 @@ public class ItemController {
 
     /**
      * 获取商品信息分页列表
+     *
      * @param requestVo
      * @return
      */
@@ -57,26 +59,27 @@ public class ItemController {
 //        return itemService.getItemList(requestVo);
         Integer page;
         Integer rows;
-        if(notExist(requestVo) || notExist(page = requestVo.getPage()) || notExist(rows = requestVo.getRows())){
+        if (notExist(requestVo) || notExist(page = requestVo.getPage()) || notExist(rows = requestVo.getRows())) {
             page = 0;
             rows = 20;
         }
-        Map<String,Object> map = Maps.newHashMap();
+        Map<String, Object> map = Maps.newHashMap();
         /*分页处理*/
-        PageHelper.startPage(page,rows);
+        PageHelper.startPage(page, rows);
         List<TbItem> list = tbItemMapper.getListByMap(map);
         PageInfo<TbItem> pageInfo = new PageInfo<>(list);
-        return new EUDataGridResultVo(list,pageInfo.getTotal());
+        return new EUDataGridResultVo(list, pageInfo.getTotal());
     }
 
     /**
      * 新增商品
+     *
      * @param addVo 前端提交过来的商品信息
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public ItaoResult addItem(ItemAddVo addVo, String desc) {
-        return itemService.addItem(addVo, desc);
+    public ItaoResult addItem(ItemAddVo addVo, String desc, String itemParams) {
+        return itemService.addItem(addVo, desc ,itemParams);
     }
 }

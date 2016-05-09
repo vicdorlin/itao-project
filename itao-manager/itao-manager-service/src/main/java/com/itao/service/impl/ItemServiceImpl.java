@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.itao.mapper.TbItemDescMapper;
+import com.itao.mapper.TbItemParamItemMapper;
 import com.itao.po.TbItemDesc;
+import com.itao.po.TbItemParamItem;
 import com.itao.vo.request.EUDataGridListRequestVo;
 import com.itao.vo.request.ItemAddVo;
 import com.itao.vo.response.EUDataGridResultVo;
@@ -30,33 +32,16 @@ public class ItemServiceImpl implements ItemService{
     private TbItemMapper tbItemMapper;
     @Resource
     private TbItemDescMapper tbItemDescMapper;
+    @Resource
+    private TbItemParamItemMapper tbItemParamItemMapper;
 
     @Override
     public TbItem getItemById(Long itemId) {
         return tbItemMapper.selectByPrimaryKey(itemId);
     }
 
-    /*@Override
-    public EUDataGridResultVo getItemList(EUDataGridListRequestVo requestVo) {
-        Integer page;
-        Integer rows;
-        if(notExist(requestVo) || notExist(page = requestVo.getPage()) || notExist(rows = requestVo.getRows())){
-            page = 0;
-            rows = 20;
-        }
-        Map<String,Object> map = Maps.newHashMap();
-        *//*分页处理*//*
-        PageHelper.startPage(page,rows);
-        List<TbItem> list = tbItemMapper.getListByMap(map);
-        EUDataGridResultVo resultVo = new EUDataGridResultVo();
-        resultVo.setRows(list);
-        PageInfo<TbItem> pageInfo = new PageInfo<>(list);
-        resultVo.setTotal(pageInfo.getTotal());
-        return resultVo;
-    }*/
-
     @Override
-    public ItaoResult addItem(ItemAddVo itemAddVo,String itemDesc) {
+    public ItaoResult addItem(ItemAddVo itemAddVo,String itemDesc, String itemParam) {
         //TODO 抛业务异常
         if(notExist(itemAddVo) || notExist(itemDesc)) return null;
 
@@ -68,6 +53,10 @@ public class ItemServiceImpl implements ItemService{
         //添加商品描述
         TbItemDesc tbItemDesc = new TbItemDesc(item.getId(),item.getCreated(),item.getUpdated(),itemDesc);
         tbItemDescMapper.insert(tbItemDesc);
+
+        //添加商品规格信息
+        TbItemParamItem itemParamItem = new TbItemParamItem(item.getId(),item.getCreated(),item.getUpdated(),itemParam);
+        tbItemParamItemMapper.insert(itemParamItem);
 
         return ItaoResult.ok();
     }
