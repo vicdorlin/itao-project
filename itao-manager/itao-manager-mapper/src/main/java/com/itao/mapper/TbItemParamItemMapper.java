@@ -16,4 +16,10 @@ public interface TbItemParamItemMapper {
     int updateByPrimaryKeyWithBLOBs(TbItemParamItem record);
 
     int updateByPrimaryKey(TbItemParamItem record);
+
+    /** 根据商品id获取商品规格参数
+     * @param itemId
+     * @return
+     */
+    TbItemParamItem getStringItemParamByItemId(Long itemId);
 }
