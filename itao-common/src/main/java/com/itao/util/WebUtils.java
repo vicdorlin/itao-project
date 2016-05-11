@@ -64,7 +64,7 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doPost(String url, Map<String, String> params, int connectTimeout, int readTimeout)
+	public static String doPost(String url, Map<String, Object> params, int connectTimeout, int readTimeout)
 			throws IOException {
 		return doPost(url, params, DEFAULT_CHARSET, connectTimeout, readTimeout);
 	}
@@ -79,12 +79,12 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doPost(String url, Map<String, String> params, String charset, int connectTimeout,int readTimeout) throws IOException {
+	public static String doPost(String url, Map<String, Object> params, String charset, int connectTimeout,int readTimeout) throws IOException {
 		return doPost(url, params, charset, connectTimeout, readTimeout, null);
 	}
 
-	public static String doPost(String url, Map<String, String> params, String charset, int connectTimeout,
-			int readTimeout, Map<String, String> headerMap) throws IOException {
+	public static String doPost(String url, Map<String, Object> params, String charset, int connectTimeout,
+			int readTimeout, Map<String, Object> headerMap) throws IOException {
 		String ctype = "application/x-www-form-urlencoded;charset=" + charset;
 		String query = buildQuery(params, charset);
 		byte[] content = {};
@@ -95,7 +95,7 @@ public abstract class WebUtils {
 	}
 
 
-	private static String _doPost(String url, String ctype, byte[] content, int connectTimeout, int readTimeout,Map<String, String> headerMap) throws IOException {
+	private static String _doPost(String url, String ctype, byte[] content, int connectTimeout, int readTimeout,Map<String, Object> headerMap) throws IOException {
 		HttpURLConnection conn = null;
 		OutputStream out = null;
 		String rsp = null;
@@ -130,7 +130,7 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doPost(String url, Map<String, String> params, Map<String, FileItem> fileParams,
+	public static String doPost(String url, Map<String, Object> params, Map<String, FileItem> fileParams,
 			int connectTimeout, int readTimeout) throws IOException {
 		if (fileParams == null || fileParams.isEmpty()) {
 			return doPost(url, params, DEFAULT_CHARSET, connectTimeout, readTimeout);
@@ -139,7 +139,7 @@ public abstract class WebUtils {
 		}
 	}
 
-	public static String doPost(String url, Map<String, String> params, Map<String, FileItem> fileParams,
+	public static String doPost(String url, Map<String, Object> params, Map<String, FileItem> fileParams,
 			String charset, int connectTimeout, int readTimeout) throws IOException {
 		return doPost(url, params, fileParams, charset, connectTimeout, readTimeout, null);
 	}
@@ -155,8 +155,8 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doPost(String url, Map<String, String> params, Map<String, FileItem> fileParams,
-			String charset, int connectTimeout, int readTimeout, Map<String, String> headerMap) throws IOException {
+	public static String doPost(String url, Map<String, Object> params, Map<String, FileItem> fileParams,
+			String charset, int connectTimeout, int readTimeout, Map<String, Object> headerMap) throws IOException {
 		if (fileParams == null || fileParams.isEmpty()) {
 			return doPost(url, params, charset, connectTimeout, readTimeout, headerMap);
 		} else {
@@ -165,8 +165,8 @@ public abstract class WebUtils {
 
 	}
 
-	private static String _doPostWithFile(String url, Map<String, String> params, Map<String, FileItem> fileParams,
-			String charset, int connectTimeout, int readTimeout, Map<String, String> headerMap) throws IOException {
+	private static String _doPostWithFile(String url, Map<String, Object> params, Map<String, FileItem> fileParams,
+			String charset, int connectTimeout, int readTimeout, Map<String, Object> headerMap) throws IOException {
 		String boundary = System.currentTimeMillis() + ""; // 随机分隔线
 		HttpURLConnection conn = null;
 		OutputStream out = null;
@@ -188,9 +188,9 @@ public abstract class WebUtils {
 				byte[] entryBoundaryBytes = ("\r\n--" + boundary + "\r\n").getBytes(charset);
 
 				// 组装文本请求参数
-				Set<Entry<String, String>> textEntrySet = params.entrySet();
-				for (Entry<String, String> textEntry : textEntrySet) {
-					byte[] textBytes = getTextEntry(textEntry.getKey(), textEntry.getValue(), charset);
+				Set<Entry<String, Object>> textEntrySet = params.entrySet();
+				for (Entry<String, Object> textEntry : textEntrySet) {
+					byte[] textBytes = getTextEntry(textEntry.getKey(),  String.valueOf(textEntry.getValue()), charset);
 					out.write(entryBoundaryBytes);
 					out.write(textBytes);
 				}
@@ -258,7 +258,7 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doGet(String url, Map<String, String> params) throws IOException {
+	public static String doGet(String url, Map<String, Object> params) throws IOException {
 		return doGet(url, params, DEFAULT_CHARSET);
 	}
 
@@ -271,7 +271,7 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static String doGet(String url, Map<String, String> params, String charset) throws IOException {
+	public static String doGet(String url, Map<String, Object> params, String charset) throws IOException {
 		HttpURLConnection conn = null;
 		String rsp = null;
 
@@ -310,7 +310,7 @@ public abstract class WebUtils {
 	 * @return 响应字符串
 	 * @throws IOException
 	 */
-	public static byte[] doGetByte(String url, Map<String, String> params, String charset) throws IOException {
+	public static byte[] doGetByte(String url, Map<String, Object> params, String charset) throws IOException {
 		HttpURLConnection conn = null;
 		byte[] rsp = null;
 
@@ -340,7 +340,7 @@ public abstract class WebUtils {
 		return rsp;
 	}
 
-	private static HttpURLConnection getConnection(URL url, String method, String ctype, Map<String, String> headerMap) throws IOException {
+	private static HttpURLConnection getConnection(URL url, String method, String ctype, Map<String, Object> headerMap) throws IOException {
 		HttpURLConnection conn = null;
 		if ("https".equals(url.getProtocol())) {
 			SSLContext ctx = null;
@@ -370,8 +370,8 @@ public abstract class WebUtils {
 		conn.setRequestProperty("User-Agent-referer", "aixuedai");
 		conn.setRequestProperty("Content-Type", ctype);
 		if (headerMap != null) {
-			for (Map.Entry<String, String> entry : headerMap.entrySet()) {
-				conn.setRequestProperty(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, Object> entry : headerMap.entrySet()) {
+				conn.setRequestProperty(entry.getKey(), String.valueOf(entry.getValue()));
 			}
 		}
 		return conn;
@@ -400,18 +400,18 @@ public abstract class WebUtils {
 		return new URL(strUrl);
 	}
 
-	public static String buildQuery(Map<String, String> params, String charset) throws IOException {
+	public static String buildQuery(Map<String, Object> params, String charset) throws IOException {
 		if (params == null || params.isEmpty()) {
 			return null;
 		}
 
 		StringBuilder query = new StringBuilder();
-		Set<Entry<String, String>> entries = params.entrySet();
+		Set<Entry<String, Object>> entries = params.entrySet();
 		boolean hasParam = false;
 
-		for (Entry<String, String> entry : entries) {
+		for (Entry<String, Object> entry : entries) {
 			String name = entry.getKey();
-			String value = entry.getValue();
+			String value = String.valueOf(entry.getValue());
 			// 忽略参数名或参数值为空的参数
 			if (StringUtils.areNotEmpty(name, value)) {
 				if (hasParam) {
@@ -578,8 +578,8 @@ public abstract class WebUtils {
 	 * @param query URL地址
 	 * @return 参数映射
 	 */
-	public static Map<String, String> splitUrlQuery(String query) {
-		Map<String, String> result = new HashMap<String, String>();
+	public static Map<String, Object> splitUrlQuery(String query) {
+		Map<String, Object> result = new HashMap<String, Object>();
 
 		String[] pairs = query.split("&");
 		if (pairs != null && pairs.length > 0) {

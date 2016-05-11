@@ -14,7 +14,7 @@ import java.util.Map;
 public class ItemControllerTest implements BaseTest{
     @Test
     public void testGetItemById(){
-        Map<String,String> map = Maps.newHashMap();
+        Map<String,Object> map = Maps.newHashMap();
         try {
             String m = WebUtils.doPost(HOST+"item/info/974401",map, CHARSET_UTF8,20000,20000);
             System.out.println(m);
@@ -25,11 +25,10 @@ public class ItemControllerTest implements BaseTest{
 
     @Test
     public void testList(){
-        Map<String,String> map = Maps.newHashMap();
-        map.put("page","0");
-        map.put("rows","3");
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("id",8);
         try {
-            String m = WebUtils.doPost(HOST+"item/list",map, CHARSET_UTF8,20000,20000);
+            String m = WebUtils.doPost(HOST+"item/cat/list",map, CHARSET_UTF8,20000,20000);
             System.out.println(m);
         } catch (IOException e) {
             e.printStackTrace();
