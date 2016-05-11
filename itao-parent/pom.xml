@@ -39,6 +39,7 @@
         <gson.version>2.3</gson.version>
         <guava.version>18.0</guava.version>
         <commons-codec.version>1.6</commons-codec.version>
+        <fastjson.version>1.1.35</fastjson.version>
     </properties>
 
     <!-- 只定义依赖的版本，并不实际依赖 -->
@@ -67,6 +68,11 @@
                 <version>${commons-net.version}</version>
             </dependency>
             <!-- Jackson Json处理工具包 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>

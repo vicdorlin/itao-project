@@ -39,6 +39,12 @@
         <include refid="whereSQL" />
         ORDER BY id DESC
     </select>
+    <select id="getListByPageRequestMap" resultMap="BaseResultMap" parameterType="com.itao.sender.PageRequestMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM tb_item
+        <include refid="whereSQL" />
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from tb_item
     where id = #{id,jdbcType=BIGINT}

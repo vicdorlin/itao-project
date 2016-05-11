@@ -4,13 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.itao.mapper.TbItemMapper;
+import com.itao.sender.AjaxSender;
+import com.itao.sender.PageRequestMap;
+import com.itao.util.ParseUtils;
 import com.itao.vo.request.EUDataGridListRequestVo;
 import com.itao.vo.request.ItemAddVo;
 import com.itao.vo.response.EUDataGridResultVo;
 import com.itao.po.TbItem;
 import com.itao.service.ItemService;
 import com.itao.vo.response.ItaoResult;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +73,20 @@ public class ItemController {
         List<TbItem> list = tbItemMapper.getListByMap(map);
         PageInfo<TbItem> pageInfo = new PageInfo<>(list);
         return new EUDataGridResultVo(list, pageInfo.getTotal());
+    }
+
+    /**
+     * PgeRequestMap分页体系测试接口
+     * @param request
+     * @param response
+     */
+    @RequestMapping("test/list")
+    public void testGetListByPageRequestMap(HttpServletRequest request, HttpServletResponse response){
+        AjaxSender sender = new AjaxSender(request,response);
+        PageRequestMap pr = new PageRequestMap(request);
+        pr.setJqGridSubmit(true);
+        List<TbItem> list = tbItemMapper.getListByPageRequestMap(pr);
+        sender.sendData(ParseUtils.jqGridPaper(pr,list));
     }
 
     /**

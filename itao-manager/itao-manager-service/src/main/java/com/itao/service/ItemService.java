@@ -1,10 +1,13 @@
 package com.itao.service;
 
+import com.itao.sender.PageRequestMap;
 import com.itao.vo.request.EUDataGridListRequestVo;
 import com.itao.po.TbItem;
 import com.itao.vo.request.ItemAddVo;
 import com.itao.vo.response.EUDataGridResultVo;
 import com.itao.vo.response.ItaoResult;
+
+import java.util.List;
 
 /**
  * Created by Vicdor on 2016-04-29-0029.
@@ -23,4 +26,5 @@ public interface ItemService {
      * @return
      */
     ItaoResult addItem(ItemAddVo itemAddVo,String itemDesc, String itemParam);
+
 }
