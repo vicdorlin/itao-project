@@ -12,7 +12,8 @@
         <module>itao-parent</module>
         <module>itao-common</module>
         <module>itao-manager</module>
-        <module>itao-rest-web</module>
+        <module>itao-rest</module>
+        <module>itao-portal</module>
     </modules>
 
 
