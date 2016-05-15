@@ -70,8 +70,8 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
-                    <warSourceDirectory>web</warSourceDirectory>
-                    <port>8090</port>
+                    <!--<warSourceDirectory>web</warSourceDirectory>-->
+                    <port>8081</port>
                     <path>/</path>
                 </configuration>
             </plugin>
@@ -83,13 +83,13 @@
                 <configuration>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8090</port>
+                            <port>8081</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
                     <!-- 自动发现改变是时间，进行热部署，默认是0，不热部署 -->
                     <scanIntervalSeconds>1</scanIntervalSeconds>
-                    <webAppSourceDirectory>web</webAppSourceDirectory>
+                    <!--<webAppSourceDirectory>web</webAppSourceDirectory>-->
                     <webAppConfig>
                         <contextPath>/</contextPath>
                     </webAppConfig>
