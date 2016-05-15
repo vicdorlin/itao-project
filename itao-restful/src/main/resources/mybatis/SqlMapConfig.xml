@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 全局的映射器启用或禁用 缓存。 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 当启用时, 有延迟加载属性的对象在被 调用时将会完全加载任意属性。否则, 每种属性将会按需要加载。 -->
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <!-- 设置超时时间, 它决定驱动等待一个数 据库响应的时间。 -->
+        <setting name="defaultStatementTimeout" value="60"/>
+        <!--
+        <setting name="autoMappingBehavior" value="FULL"/>
+         -->
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.itao.sender.PageRequestMap" alias="PageRequestMap"/>
+        <package name="com.itao.po" />
+    </typeAliases>
+    <!-- 配置分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+        <plugin interceptor="com.itao.database.PagePlugin">
+            <property name="dialect" value="mysql"/>
+            <property name="pageSqlId" value=".*List.*"/>
+        </plugin>
+    </plugins>
+</configuration>
