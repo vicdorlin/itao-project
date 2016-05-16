@@ -130,6 +130,7 @@
     SELECT
     <include refid="Base_Column_List"/>
     FROM tb_item_cat WHERE parent_id = #{parentId,jdbcType=BIGINT}
+    ORDER BY sort_order,`name`
   </select>
 
 </mapper>

@@ -19,6 +19,14 @@ public class TbItemCat {
 
     private Date updated;
 
+    /**
+     * 是否第一层
+     * @return
+     */
+    public boolean isTopHierarchy(long parentId){
+        return parentId == 0;
+    }
+
     public Long getId() {
         return id;
     }
