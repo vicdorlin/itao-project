@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by Vicdor on 2016-05-07-0007.
  */
 public class ItemAddVo extends BaseVo {
+    private static final long serialVersionUID = -2995139903366983623L;
 
     private String title;
 

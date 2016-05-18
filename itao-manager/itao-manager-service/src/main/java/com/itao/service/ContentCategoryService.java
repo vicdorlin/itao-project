@@ -1,6 +1,7 @@
 package com.itao.service;
 
 import com.itao.vo.response.EUTreeNode;
+import com.itao.vo.response.ItaoResult;
 
 import java.util.List;
 
@@ -15,4 +16,12 @@ public interface ContentCategoryService {
      * @return
      */
     List<EUTreeNode> getContentCategoryList(Long parentId);
+
+    /**
+     * 新增分类
+     * @param parentId
+     * @param name
+     * @return
+     */
+    ItaoResult insertContentCategory(long parentId,String name);
 }

@@ -6,6 +6,8 @@ import com.itao.vo.BaseVo;
  * @author Created by Vicdor(linss) on 2016-05-09 23:22.
  */
 public class ItemParamAddVo extends BaseVo {
+    private static final long serialVersionUID = 7358858318992846058L;
+
     private Long itemCatId;
     private String paramData;
 

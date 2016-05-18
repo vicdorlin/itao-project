@@ -2,6 +2,7 @@ package com.itao.controller;
 
 import com.itao.service.ContentCategoryService;
 import com.itao.vo.response.EUTreeNode;
+import com.itao.vo.response.ItaoResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,5 +30,17 @@ public class ContentCategoryController {
     @RequestMapping("list")
     public List<EUTreeNode> getContentCategoryList(@RequestParam(value = "id",defaultValue = "0") Long parentId){
         return contentCategoryService.getContentCategoryList(parentId);
+    }
+
+    /**
+     * 新增分类
+     * @param parentId
+     * @param name
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("create")
+    public ItaoResult addContentCategory(Long parentId, String name) {
+        return contentCategoryService.insertContentCategory(parentId,name);
     }
 }

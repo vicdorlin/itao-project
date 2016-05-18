@@ -4,6 +4,7 @@ import com.itao.mapper.TbContentCategoryMapper;
 import com.itao.po.TbContentCategory;
 import com.itao.service.ContentCategoryService;
 import com.itao.vo.response.EUTreeNode;
+import com.itao.vo.response.ItaoResult;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,5 +33,21 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
             nodes.add(node);
         }
         return nodes;
+    }
+
+    @Override
+    public ItaoResult insertContentCategory(long parentId, String name) {
+        TbContentCategory contentCategory = new TbContentCategory(parentId,name);
+        contentCategory.buildContentCategory();
+        //添加纪录
+        tbContentCategoryMapper.insert(contentCategory);
+        //父节点
+        TbContentCategory father = tbContentCategoryMapper.selectByPrimaryKey(parentId);
+        if(!father.getIsParent()){
+            father.setIsParent(true);
+            tbContentCategoryMapper.updateByPrimaryKey(father);
+        }
+        //返回结果
+        return ItaoResult.ok(contentCategory);
     }
 }
