@@ -9,17 +9,25 @@ import java.lang.reflect.Method;
 public class EnumUtils {
 
     /**
-     * 枚举处理
-     *
-     * @param elementType
-     * @param value
-     * @param <T>
-     * @return
+     * 根据枚举对象属性值获取枚举对象
+     * 注：只适用于查询value值归属在名为"value"字段下的枚举类
+     * @param elementType 枚举类的类对象
+     * @param value 被查询的属性值
+     * @param <T> 枚举类
+     * @return 返回对应的枚举对象
      */
     public static <T> T valueOf(Class<T> elementType, Object value) {
         return valueOf(elementType, "value", value);
     }
 
+    /**
+     * 根据枚举对象属性值获取枚举对象
+     * @param elementType 枚举类的类对象
+     * @param filedName 字段名称（如:"value","key","content"...）
+     * @param value 枚举对象某属性值
+     * @param <T> 枚举类
+     * @return 返回对应的枚举对象
+     */
     public static <T> T valueOf(Class<T> elementType, String filedName, Object value) {
         if(value != null && elementType.isEnum()){
             T[] fields = elementType.getEnumConstants();
