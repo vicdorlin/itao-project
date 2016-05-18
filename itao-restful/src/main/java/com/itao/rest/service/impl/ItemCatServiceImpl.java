@@ -39,10 +39,15 @@ public class ItemCatServiceImpl implements ItemCatService {
     public List<?> getCatList(Long parentId) {
         List<TbItemCat> catList = tbItemCatMapper.getListByParentId(parentId);
         List resultList = new ArrayList<>();
+        int flag = 0;
         for (TbItemCat tbItemCat : catList) {
             Long itemCatId = tbItemCat.getId();
             String itemName = tbItemCat.getName();
             if(tbItemCat.getIsParent()){
+                if(parentId == 0){
+                    if(flag == 14) break;
+                    flag ++;
+                }
                 List<?> item = getCatList(itemCatId);
                 String name;
                 if (!tbItemCat.isTopHierarchy(parentId)) {
