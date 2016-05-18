@@ -125,4 +125,11 @@
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!--根据Map中的条件，筛选列表-->
+  <select id="getListByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM tb_content_category WHERE parent_id = #{parentId,jdbcType=BIGINT}
+    ORDER BY sort_order,`name`
+  </select>
 </mapper>

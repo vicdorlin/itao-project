@@ -25,10 +25,10 @@ public class ItemCatServiceImpl implements ItemCatService {
         List<TbItemCat> catList = tbItemCatMapper.getListByParentId(parentId);
         List<EUTreeNode> nodes = new ArrayList<>();
         for(TbItemCat cat : catList){
-            EUTreeNode node = new EUTreeNode();
-            node.setId(cat.getId());
-            node.setText(cat.getName());
-            node.setState(cat.getIsParent() ? "closed" : "open");
+            EUTreeNode node = new EUTreeNode(
+                    cat.getId(),
+                    cat.getName(),
+                    cat.getIsParent() ? "closed" : "open");
             nodes.add(node);
         }
         return nodes;
