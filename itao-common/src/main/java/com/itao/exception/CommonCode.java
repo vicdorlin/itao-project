@@ -3,9 +3,9 @@ package com.itao.exception;
 /**
  * @author Created by Vicdor(linss) on 2016-05-20 01:09.
  */
-public enum CommonCode implements Code{
-    NO_LIST_HERE(1001,"无数据可导")
-    ;
+public enum CommonCode implements Code {
+    NO_LIST_HERE(1001, "无数据可导"),
+    NO_SUCH_TYPE(1002, "没有这种格式"),;
     private int code;
     private String msg;
 
