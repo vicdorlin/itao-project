@@ -36,8 +36,8 @@ public class ExcelExporterTest {
         }
         dataMap.put("add0", intList);
         List<String> strList = new ArrayList<>();
-        for (int i = dataSet.size(); i > 0; i--) {
-            strList.add(String.valueOf(i));
+        for (Doggy doggy : dataSet) {
+            intList.add(doggy.getAge()+"岁的小花狗");
         }
         dataMap.put("add1", strList);
         //时间格式Map<字段名0,日期格式>    精度Map<字段名1,浮点精度>
