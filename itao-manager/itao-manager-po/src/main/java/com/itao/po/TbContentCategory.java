@@ -22,17 +22,39 @@ public class TbContentCategory {
     public TbContentCategory() {
     }
 
+    public TbContentCategory(Long id) {
+        this.id = id;
+    }
+
     public TbContentCategory(Long parentId, String name) {
         this.parentId = parentId;
         this.name = name;
     }
 
+    /**
+     * 构建普通的内容分类信息
+     */
     public void buildContentCategory(){
         isParent = false;
         sortOrder = 1;
         status = Status.NORMAL.key;
         created = new Date();
         updated = created;
+    }
+
+    /**
+     * 删除内容分类
+     */
+    public void delContentCategory(){
+        status = Status.DELETED.key;
+    }
+
+    /**
+     * 改变条目类型
+     * @param isParent
+     */
+    public void ifParent(Boolean isParent){
+        this.isParent = isParent;
     }
 
     enum Status{

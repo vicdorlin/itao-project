@@ -43,4 +43,15 @@ public class ContentCategoryController {
     public ItaoResult addContentCategory(Long parentId, String name) {
         return contentCategoryService.insertContentCategory(parentId,name);
     }
+
+    /**
+     * 删除分类
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("delete")
+    public ItaoResult delContentCategoty(Long id){
+        return contentCategoryService.delContentCategory(id);
+    }
 }

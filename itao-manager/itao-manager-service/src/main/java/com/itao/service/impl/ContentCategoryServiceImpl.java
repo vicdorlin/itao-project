@@ -1,8 +1,11 @@
 package com.itao.service.impl;
 
+import static com.itao.code.BusinessCode.*;
+import com.itao.exception.BusinessException;
 import com.itao.mapper.TbContentCategoryMapper;
 import com.itao.po.TbContentCategory;
 import com.itao.service.ContentCategoryService;
+import com.itao.util.CommonUtils;
 import com.itao.vo.response.EUTreeNode;
 import com.itao.vo.response.ItaoResult;
 import org.springframework.stereotype.Service;
@@ -49,5 +52,35 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
         }
         //返回结果
         return ItaoResult.ok(contentCategory);
+    }
+
+    @Override
+    public ItaoResult delContentCategory(Long id) {
+        //得到当前的分类内容
+        TbContentCategory category = tbContentCategoryMapper.selectByPrimaryKey(id);
+        if(CommonUtils.notExist(category)) throw new BusinessException(NO_CONTENT_CATEGORY);
+        List<TbContentCategory> sons = tbContentCategoryMapper.getListByParentId(id);
+        if(CommonUtils.isSetNotEmpty(sons)){
+            for (TbContentCategory son : sons) {
+                son.delContentCategory();
+                //递归删除子集
+                delContentCategory(son.getId());
+            }
+        }
+        //删除当前结点
+        TbContentCategory contentCategory = new TbContentCategory(id);
+        contentCategory.delContentCategory();
+        tbContentCategoryMapper.updateByPrimaryKeySelective(contentCategory);
+
+        //得到父id
+        Long parentId = category.getParentId();
+        List<TbContentCategory> sonList = tbContentCategoryMapper.getListByParentId(parentId);
+        if(CommonUtils.isSetEmpty(sonList)){
+            TbContentCategory father = new TbContentCategory(parentId);
+            father.setIsParent(false);
+            tbContentCategoryMapper.updateByPrimaryKeySelective(father);
+        }
+
+        return ItaoResult.ok();
     }
 }

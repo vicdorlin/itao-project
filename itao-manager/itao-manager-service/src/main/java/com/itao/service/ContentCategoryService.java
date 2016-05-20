@@ -24,4 +24,11 @@ public interface ContentCategoryService {
      * @return
      */
     ItaoResult insertContentCategory(long parentId,String name);
+
+    /**
+     * 删除分类（软删除）
+     * @param id
+     * @return
+     */
+    ItaoResult delContentCategory(Long id);
 }

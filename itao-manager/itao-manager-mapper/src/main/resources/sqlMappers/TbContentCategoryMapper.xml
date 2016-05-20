@@ -135,7 +135,7 @@
     <select id="getListByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM tb_content_category WHERE parent_id = #{parentId,jdbcType=BIGINT}
+        FROM tb_content_category WHERE parent_id = #{parentId,jdbcType=BIGINT} AND `status` = 1
         ORDER BY sort_order,`name`
     </select>
 </mapper>
