@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -392,7 +393,7 @@ public class ExcelExporter<T> {
         try {
             response.setContentType("application/x-download");
             response.addHeader("Content-Disposition", "attachment;filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
-            out = response.getOutputStream();
+//TODO 莫名其妙啊       out = response.getOutputStream();
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
