@@ -136,6 +136,6 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM tb_content_category WHERE parent_id = #{parentId,jdbcType=BIGINT} AND `status` = 1
-        ORDER BY sort_order,`name`
+        ORDER BY sort_order,id
     </select>
 </mapper>

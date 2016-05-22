@@ -54,4 +54,16 @@ public class ContentCategoryController {
     public ItaoResult delContentCategoty(Long id){
         return contentCategoryService.delContentCategory(id);
     }
+
+
+    /**
+     * 修改分类内容名称
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("update")
+    public ItaoResult modContentCategory(Long id,String name){
+        return contentCategoryService.modContentCategory(id,name);
+    }
 }

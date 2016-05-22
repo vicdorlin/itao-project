@@ -31,4 +31,12 @@ public interface ContentCategoryService {
      * @return
      */
     ItaoResult delContentCategory(Long id);
+
+    /**
+     * 修改分类节点
+     * @param id
+     * @param name
+     * @return
+     */
+    ItaoResult modContentCategory(Long id,String name);
 }

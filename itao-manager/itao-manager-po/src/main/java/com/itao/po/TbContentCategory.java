@@ -26,6 +26,21 @@ public class TbContentCategory {
         this.id = id;
     }
 
+    /**
+     * 用于修改节点
+     * @param name
+     * @param id
+     */
+    public TbContentCategory(String name,Long id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    /**
+     * 用于新增节点
+     * @param parentId
+     * @param name
+     */
     public TbContentCategory(Long parentId, String name) {
         this.parentId = parentId;
         this.name = name;

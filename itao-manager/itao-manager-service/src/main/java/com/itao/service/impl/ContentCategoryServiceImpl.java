@@ -83,4 +83,10 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 
         return ItaoResult.ok();
     }
+
+    @Override
+    public ItaoResult modContentCategory(Long id, String name) {
+        tbContentCategoryMapper.updateByPrimaryKeySelective(new TbContentCategory(name,id));
+        return ItaoResult.ok();
+    }
 }
