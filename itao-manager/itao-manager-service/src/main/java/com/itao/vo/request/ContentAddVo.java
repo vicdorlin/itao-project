@@ -1,10 +1,12 @@
-package com.itao.po;
+package com.itao.vo.request;
 
-import java.util.Date;
+import com.itao.vo.BaseVo;
 
-public class TbContent {
-    private Long id;
-
+/**
+ * @author Created by Vicdor(linss) on 2016-05-22 18:34.
+ */
+public class ContentAddVo extends BaseVo {
+    private static final long serialVersionUID = -7772063616441357191L;
     private Long categoryId;
 
     private String title;
@@ -19,24 +21,7 @@ public class TbContent {
 
     private String pic2;
 
-    private Date created;
-
-    private Date updated;
-
     private String content;
-
-    public void buildContent(){
-        created = new Date();
-        updated = created;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getCategoryId() {
         return categoryId;
@@ -51,7 +36,7 @@ public class TbContent {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public String getSubTitle() {
@@ -59,7 +44,7 @@ public class TbContent {
     }
 
     public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle == null ? null : subTitle.trim();
+        this.subTitle = subTitle;
     }
 
     public String getTitleDesc() {
@@ -67,7 +52,7 @@ public class TbContent {
     }
 
     public void setTitleDesc(String titleDesc) {
-        this.titleDesc = titleDesc == null ? null : titleDesc.trim();
+        this.titleDesc = titleDesc;
     }
 
     public String getUrl() {
@@ -75,7 +60,7 @@ public class TbContent {
     }
 
     public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+        this.url = url;
     }
 
     public String getPic() {
@@ -83,7 +68,7 @@ public class TbContent {
     }
 
     public void setPic(String pic) {
-        this.pic = pic == null ? null : pic.trim();
+        this.pic = pic;
     }
 
     public String getPic2() {
@@ -91,23 +76,7 @@ public class TbContent {
     }
 
     public void setPic2(String pic2) {
-        this.pic2 = pic2 == null ? null : pic2.trim();
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
+        this.pic2 = pic2;
     }
 
     public String getContent() {
@@ -115,6 +84,6 @@ public class TbContent {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
     }
 }

@@ -30,6 +30,25 @@
     from tb_content
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <!--根据Map中的条件，筛选列表-->
+  <select id="getListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM tb_content
+    <include refid="whereSQL" />
+    ORDER BY id DESC
+  </select>
+  <!--筛选条件-->
+  <sql id="whereSQL" >
+    <where>
+      <if test="id != null and id != ''">
+        <![CDATA[ AND id = #{id,jdbcType=BIGINT} ]]>
+      </if>
+      <if test="categoryId != null and categoryId != ''">
+        <![CDATA[ AND category_id = #{categoryId,jdbcType=BIGINT} ]]>
+      </if>
+    </where>
+  </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tb_content
     where id = #{id,jdbcType=BIGINT}
