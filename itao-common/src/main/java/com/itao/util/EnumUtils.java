@@ -1,7 +1,6 @@
 package com.itao.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * Created by Vicdor on 2016-05-07-0007.
@@ -46,7 +45,7 @@ public class EnumUtils {
         return null;
     }
 
-    enum TestEnum {
+    /*enum TestEnum {
         TEST1(1, "hi"),
         TEST2(2, "ho");
 
@@ -119,5 +118,5 @@ public class EnumUtils {
         if (testEnum22 == TestEnum2.TEST2) {
             System.out.println("test for key");
         }
-    }
+    }*/
 }
