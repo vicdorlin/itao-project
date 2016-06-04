@@ -1,8 +1,9 @@
 package com.itao.portal.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 页面展示Controller
@@ -18,6 +19,16 @@ public class PageController {
     @RequestMapping("index")
     public String showIndexPage(){
         return "index";
+    }
+
+    /**
+     * httpClient 调用post请求测试用接口
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="httpclient/post",method = RequestMethod.POST)
+    public String testPost(String name,String pwd){
+        return "name === "+name+" === pwd === "+pwd;
     }
 
 }
