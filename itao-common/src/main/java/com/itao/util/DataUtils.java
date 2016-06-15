@@ -17,9 +17,9 @@ import java.util.Set;
 /**
  * 用于封装一些数据的处理
  * 1，A copyTo D : [组装另一个类型的对象]：【推荐】 D copyData(Class<D> clazzD, A arg)
- * 2，List<A> copyTo List<D> : [填充新的list]：【推荐】 List<D> copyDatas(Class<D> clazzD, List<A> args)
- * 3，List<A> copyTo List<D> : [补充原有的list]：【推荐】 List<D> attachDatas(List<D> dogs, List<A> args)
- * 4，List<A> copyTo List<D> : [补充原有的list（dogs为空或空集则同2）]：【推荐】 List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args)
+ * 2，List<A> copyListTo List<D> : [填充新的list]：【推荐】 List<D> copyDatas(Class<D> clazzD, List<A> args)
+ * 3，List<A> copyListTo List<D> : [补充原有的list]：【推荐】 List<D> attachDatas(List<D> dogs, List<A> args)
+ * 4，List<A> copyListTo List<D> : [补充原有的list（dogs为空或空集则同2）]：【推荐】 List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args)
  *
  * @author vicdor
  * @create 2016-06-15 11:17
