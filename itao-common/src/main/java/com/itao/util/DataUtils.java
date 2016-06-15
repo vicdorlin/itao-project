@@ -12,10 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.itao.util.CommonUtils.exist;
-import static com.itao.util.CommonUtils.isSetEmpty;
-import static com.itao.util.CommonUtils.notExist;
-
 /**
  * 用于封装一些数据的处理
  *
@@ -55,7 +51,7 @@ public class DataUtils {
      * @param keyMap <k,v> k:D中字段 v:A中字段
      */
     public static <D,A> D copyData(Class<D> clazzD, A arg, List<String> keys, Map<String,String> keyMap){
-        if(notExist(arg) || notExist(clazzD)) return null;
+        if(arg == null || clazzD == null) return null;
 
         //1,如果未提供keys则默认使用D类所有字段名
         if(keys == null || keys.size() == 0){
@@ -192,14 +188,14 @@ public class DataUtils {
      * @return 处理后的D类型数据集合
      */
     public static <D,A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
-        if(isSetEmpty(args)) return dogs;
+        if(args == null || args.size() <= 0) return dogs;
 
         //1,如果未提供keys则默认使用D类所有字段名
         if(keys == null || keys.size() == 0){
             Field[] dFields;
-            if(notExist(clazzD)) {
+            if(clazzD == null) {
                 //keys没有，classD有咩有，dogs也没点东西，玩毛...
-                if(isSetEmpty(dogs)) return dogs;
+                if(dogs == null || dogs.size() <= 0) return dogs;
                 //dogs中有数据，则通过dogs中的一条数据来获取D类字段集
                 dFields = dogs.get(0).getClass().getDeclaredFields();
             }else {
@@ -239,7 +235,7 @@ public class DataUtils {
 
             //默认取相同名称的字段
             String valueKey = key;
-            if(exist(keyMap)){
+            if( keyMap != null && keyMap.size() > 0){
                 Set<String> keySet = keyMap.keySet();
                 if(keySet.contains(key)){
                     valueKey = keyMap.get(key);
