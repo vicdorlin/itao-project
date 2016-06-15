@@ -25,6 +25,7 @@ import static com.itao.util.CommonUtils.notExist;
 public class DataUtils {
 
     /**
+     * （若符合要求，推荐使用）
      * 要求字段名称和类型一一对应
      */
     public static <D,A> D copyData(Class<D> clazzD, A arg){
