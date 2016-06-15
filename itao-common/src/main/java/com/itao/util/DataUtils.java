@@ -78,8 +78,15 @@ public class DataUtils {
 
 
     /*===copyDatas意味着生成=======【list数据操作】======attachDatas意味着附加，即不断往传入的dogs中添加数据===*/
+    /*
+     * 推荐列表：
+     * List<D> copyDatas(Class<D> clazzD, List<A> args)
+     * List<D> attachDatas(List<D> dogs, List<A> args)
+     * List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args)
+     */
 
     /**
+     * (若符合默认规则推荐使用)
      * 将A的数据集，按照名称直接对应copy为一个新的D的数据集
      * 要求：相同的字段名有相同的数据类型（可解决）
      * @param args A的数据集
@@ -124,6 +131,7 @@ public class DataUtils {
     }
 
     /**
+     * （dogs有数据后，若符合默认规则，推荐使用）
      * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 要求：dogs中至少要有一条数据
@@ -136,6 +144,7 @@ public class DataUtils {
     }
 
     /**
+     * （若符合默认规则，推荐使用）
      * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 说明，dogs可以为空或空集
