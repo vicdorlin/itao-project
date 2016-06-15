@@ -25,36 +25,35 @@ import static com.itao.util.CommonUtils.notExist;
 public class DataUtils {
 
     /**
-     *
-     * @param clazzD
-     * @param arg
-     * @param <D>
-     * @param <A>
-     * @return
+     * 要求字段名称和类型一一对应
      */
-    public static <D,A> D combineDog(Class<D> clazzD,A arg){
-        return combineDog(clazzD,arg,null,null);
-    }
-
-    public static <D,A> D combineDog(Class<D> clazzD,A arg, List<String> keys){
-        return combineDog(clazzD,arg,keys,null);
-    }
-
-    public static <D,A> D combineDog(Class<D> clazzD,A arg, Map<String,String> keyMap){
-        return combineDog(clazzD,arg,null,keyMap);
+    public static <D,A> D copyData(Class<D> clazzD, A arg){
+        return copyData(clazzD,arg,null,null);
     }
 
     /**
-     *
-     * @param clazzD
-     * @param arg
-     * @param keys
-     * @param keyMap
-     * @param <D>
-     * @param <A>
-     * @return
+     * 使用指定的keys中的D字段
      */
-    public static <D,A> D combineDog(Class<D> clazzD,A arg, List<String> keys, Map<String,String> keyMap){
+    public static <D,A> D copyData(Class<D> clazzD, A arg, List<String> keys){
+        return copyData(clazzD,arg,keys,null);
+    }
+
+    /**
+     * 部分字段使用keyMap指定的关系对应起来
+     * @param keyMap <k,v> k:D中字段 v:A中字段
+     */
+    public static <D,A> D copyData(Class<D> clazzD, A arg, Map<String,String> keyMap){
+        return copyData(clazzD,arg,null,keyMap);
+    }
+
+    /**
+     * 将arg对象按照keys指定的字段,根据名称一一对应（部分按照keyMap指定对应）copy为一个新的D类型对象
+     * @param clazzD 要生成的对象的类型
+     * @param arg 数据来源
+     * @param keys 指定要copy数据的字段名
+     * @param keyMap <k,v> k:D中字段 v:A中字段
+     */
+    public static <D,A> D copyData(Class<D> clazzD, A arg, List<String> keys, Map<String,String> keyMap){
         if(notExist(arg) || notExist(clazzD)) return null;
 
         //1,如果未提供keys则默认使用D类所有字段名
@@ -78,7 +77,7 @@ public class DataUtils {
 
 
 
-    /*===produceDatas意味着生成=======【list数据操作】======attachDatas意味着附加，即不断往传入的dogs中添加数据===*/
+    /*===copyDatas意味着生成=======【list数据操作】======attachDatas意味着附加，即不断往传入的dogs中添加数据===*/
 
     /**
      * 将A的数据集，按照名称直接对应copy为一个新的D的数据集
@@ -86,8 +85,8 @@ public class DataUtils {
      * @param args A的数据集
      * @return D的数据集
      */
-    public static <D,A> List<D> produceDatas(Class<D> clazzD, List<A> args) {
-        return copyDatas(clazzD,null,args,null,null);
+    public static <D,A> List<D> copyDatas(Class<D> clazzD, List<A> args) {
+        return attachDatas(clazzD,null,args,null,null);
     }
 
     /**
@@ -97,8 +96,8 @@ public class DataUtils {
      * @param keys 指定的D的字段
      * @return D的数据集
      */
-    public static <D,A> List<D> produceDatas(Class<D> clzzD,List<A> args,List<String> keys){
-        return copyDatas(clzzD,null,args,keys,null);
+    public static <D,A> List<D> copyDatas(Class<D> clzzD,List<A> args,List<String> keys){
+        return attachDatas(clzzD,null,args,keys,null);
     }
 
     /**
@@ -108,8 +107,8 @@ public class DataUtils {
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public static <D,A> List<D> produceDatas(Class<D> clzzD,List<A> args,Map<String,String> keyMap){
-        return copyDatas(clzzD,null,args,null,keyMap);
+    public static <D,A> List<D> copyDatas(Class<D> clzzD,List<A> args,Map<String,String> keyMap){
+        return attachDatas(clzzD,null,args,null,keyMap);
     }
 
     /**
@@ -120,8 +119,8 @@ public class DataUtils {
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public static <D,A> List<D> produceDatas(Class<D> clazzD,List<A> args,List<String> keys,Map<String,String> keyMap){
-        return copyDatas(clazzD,null,args,keys,keyMap);
+    public static <D,A> List<D> copyDatas(Class<D> clazzD,List<A> args,List<String> keys,Map<String,String> keyMap){
+        return attachDatas(clazzD,null,args,keys,keyMap);
     }
 
     /**
@@ -132,8 +131,8 @@ public class DataUtils {
      * @param args A的数据集
      * @return D的数据集
      */
-    public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args) {
-        return copyDatas(null,dogs,args,null,null);
+    public static <D,A> List<D> attachDatas(List<D> dogs, List<A> args) {
+        return attachDatas(null,dogs,args,null,null);
     }
 
     /**
@@ -141,8 +140,8 @@ public class DataUtils {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 说明，dogs可以为空或空集
      */
-    public static <D,A> List<D> copyDatas(Class<D> clazzD, List<D> dogs, List<A> args) {
-        return copyDatas(clazzD,dogs,args,null,null);
+    public static <D,A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args) {
+        return attachDatas(clazzD,dogs,args,null,null);
     }
 
     /**
@@ -150,22 +149,22 @@ public class DataUtils {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 要求：keys当有数据
      */
-    public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args, List<String> keys) {
-        return copyDatas(null,dogs,args,keys,null);
+    public static <D,A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys) {
+        return attachDatas(null,dogs,args,keys,null);
     }
 
     /**
      * 有map无keys有clazzD
      */
-    public static <D,A> List<D> copyDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String,String> keyMap){
-        return copyDatas(clazzD,dogs,args,null,keyMap);
+    public static <D,A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String,String> keyMap){
+        return attachDatas(clazzD,dogs,args,null,keyMap);
     }
 
     /**
      * 有map有keys无clazzD
      */
-    public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
-        return copyDatas(null,dogs,args,keys,keyMap);
+    public static <D,A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
+        return attachDatas(null,dogs,args,keys,keyMap);
     }
 
     /**
@@ -182,7 +181,7 @@ public class DataUtils {
      * @param <A> 现提供数据的集合元素的数据类型
      * @return 处理后的D类型数据集合
      */
-    public static <D,A> List<D> copyDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
+    public static <D,A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
         if(isSetEmpty(args)) return dogs;
 
         //1,如果未提供keys则默认使用D类所有字段名
