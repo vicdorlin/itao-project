@@ -25,7 +25,10 @@ public class DataUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
 
     /**
-     * （若符合要求，推荐使用）
+     * （若符合要求（即存在数据传递关系的类之间相同字段名对应字段类型也相同，
+     * 且对参与数据传递的字段没有其他限制（即无需keys），
+     * 并且只进行同名字段传递(即无需keyMap)），
+     * 则推荐使用）
      * 要求字段名称和类型一一对应
      */
     public static <D,A> D copyData(Class<D> clazzD, A arg){
