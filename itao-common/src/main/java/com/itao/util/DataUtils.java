@@ -78,43 +78,80 @@ public class DataUtils {
 
 
 
-    /*===v=======v=======v=======v======v=====v=====v======list数据操作======v=======v======v========v========v==*/
+    /*===produceDatas意味着生成=======【list数据操作】======attachDatas意味着附加，即不断往传入的dogs中添加数据===*/
 
     /**
-     * 将整一个A的数据集 copy为D的数据集
+     * 将A的数据集，按照名称直接对应copy为一个新的D的数据集
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * @param args A的数据集
+     * @return D的数据集
      */
-    public static <D,A> List<D> copyDatas(Class<D> clazzD, List<A> args) {
+    public static <D,A> List<D> produceDatas(Class<D> clazzD, List<A> args) {
         return copyDatas(clazzD,null,args,null,null);
     }
 
-    //TODO 其它重载
+    /**
+     * 将A的数据集，按照keys中指定的D的字段，依据名称直接对应copy为一个新的D的数据集
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * @param args A的数据集
+     * @param keys 指定的D的字段
+     * @return D的数据集
+     */
+    public static <D,A> List<D> produceDatas(Class<D> clzzD,List<A> args,List<String> keys){
+        return copyDatas(clzzD,null,args,keys,null);
+    }
 
-    /** method_1
-     * 无map无keys无clazzD
-     * 洋气，参数已经最简化了，将args中所有与dogs同名，且同类型的字段值，置入dogs中
-     * 但是前提是dogs中有数据，不然爱莫能助(请走method_2（给keys） 或 method_3(给clazzD))
-     *
-     * 注：高度自由意味着安全性就会降低，自然对两个类的要求就会提高
-     *      那么这里只会copy两个类中存在的相同名字的字段（否则要通过配置keyMap<dFieldName,aFieldName>）
-     *      并且要求名称相同的字段拥有同样的类型（否则本方法不适用，请针对具体需求重写算法实现）
+    /**
+     * 将A的数据集按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * @param args A的数据集
+     * @param keyMap <k,v> k为D中字段名，v为A中字段名
+     * @return D的数据集
+     */
+    public static <D,A> List<D> produceDatas(Class<D> clzzD,List<A> args,Map<String,String> keyMap){
+        return copyDatas(clzzD,null,args,null,keyMap);
+    }
+
+    /**
+     * 将A的数据集，按照keys中指定的D的字段，按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * @param args A的数据集
+     * @param keys 指定的D的字段
+     * @param keyMap <k,v> k为D中字段名，v为A中字段名
+     * @return D的数据集
+     */
+    public static <D,A> List<D> produceDatas(Class<D> clazzD,List<A> args,List<String> keys,Map<String,String> keyMap){
+        return copyDatas(clazzD,null,args,keys,keyMap);
+    }
+
+    /**
+     * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * 要求：dogs中至少要有一条数据
+     * @param dogs D的数据集
+     * @param args A的数据集
+     * @return D的数据集
      */
     public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args) {
         return copyDatas(null,dogs,args,null,null);
     }
 
-    /** method_2
-     * 无map无clazzD有keys
-     * classD为空，则dogs或者keys不应全无数据，否则直接返回dogs，方法调用无意义
-     */
-    public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args, List<String> keys) {
-        return copyDatas(null,dogs,args,keys,null);
-    }
-
-    /** method_3
-     * 无map无keys有clazzD
+    /**
+     * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * 说明，dogs可以为空或空集
      */
     public static <D,A> List<D> copyDatas(Class<D> clazzD, List<D> dogs, List<A> args) {
         return copyDatas(clazzD,dogs,args,null,null);
+    }
+
+    /**
+     * 将A的数据集，按照keys中指定的D的字段，依据名称直接对应copy添加到D的数据集，以丰富dogs
+     * 要求：相同的字段名有相同的数据类型（可解决）
+     * 要求：keys当有数据
+     */
+    public static <D,A> List<D> copyDatas(List<D> dogs, List<A> args, List<String> keys) {
+        return copyDatas(null,dogs,args,keys,null);
     }
 
     /**
@@ -132,7 +169,7 @@ public class DataUtils {
     }
 
     /**
-     * 将A类型的集合args中的部分数据(通过keys和keyMap指定)植入D类型的集合dogs中
+     * 将A类型的集合args中的部分数据(通过keys和keyMap指定)添加进入D类型的集合dogs中
      * 注：   0，D，A都应符合标准的bean规范（无视serialVersionUID）
      *       1，clazzD、dogs、keys 至少应该有一个是有数据(非空)的，否则调用本方法无意义
      *          这里的数据依据，keys的优先级最高，其次为clazzD，再次为dogs中的元素；
@@ -142,7 +179,7 @@ public class DataUtils {
      * @param keys 指定D类中哪些字段参与数据合成
      * @param keyMap <k,v> 用于处理两个类因字段名不同导致的尴尬 k:应当为keys中存在的属于D的字段名，v：应当为A中存在的字段名
      * @param <D> 要合成的数据类型
-     * @param <A> 现有的数据类型
+     * @param <A> 现提供数据的集合元素的数据类型
      * @return 处理后的D类型数据集合
      */
     public static <D,A> List<D> copyDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String,String> keyMap){
