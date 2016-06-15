@@ -2,6 +2,8 @@ package com.itao.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -19,6 +21,8 @@ import java.util.Set;
  * @create 2016-06-15 11:17
  */
 public class DataUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
 
     /**
      * （若符合要求，推荐使用）
@@ -67,7 +71,7 @@ public class DataUtils {
         Class clazzA = arg.getClass();
 
         if(errorKeySet.size() > 0)
-            System.out.println("1000 === 创建PropertyDescriptor失败 === errorKeySet:" + errorKeySet);//TODO 加日志
+            LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}",errorKeySet);
 
         return (D) compose(arg,clazzD,clazzA,keys,keyMap,errorKeySet);
     }
@@ -217,7 +221,7 @@ public class DataUtils {
             dogs.add((D) compose(a,clazzD,clazzA,keys,keyMap,errorKeySet));
         }
         if(errorKeySet.size() > 0)
-            System.out.println("1000 === 创建PropertyDescriptor失败 === errorKeySet:" + errorKeySet);//TODO 加日志
+            LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}",errorKeySet);
         return dogs;
     }
 
@@ -262,8 +266,8 @@ public class DataUtils {
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
-                    /*参数类型不匹配*/
-                System.out.println("1002 === 参数类型不匹配 === key " + key);//TODO 加日志
+                /*参数类型不匹配*/
+                LOGGER.info("1002 === 参数类型不匹配 === key:{}",key);
             }
         }
         return d;
