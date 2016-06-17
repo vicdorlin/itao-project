@@ -36,14 +36,22 @@ public class DataUtils {
      * 要求字段名称和类型一一对应
      */
     public static <D, A> D copyData(Class<D> clazzD, A arg) {
-        return copyData(clazzD, arg, null, null);
+        return copyData(clazzD, arg, null, null, null);
+    }
+
+    /**
+     * 加了个需要排除的字段集集
+     * @param exceptKeySet 排除的字段集
+     */
+    public static <D, A> D copyData(Class<D> clazzD, A arg, Set<String> exceptKeySet) {
+        return copyData(clazzD,arg,null,null,exceptKeySet);
     }
 
     /**
      * 使用指定的keys中的D字段
      */
     public static <D, A> D copyData(Class<D> clazzD, A arg, List<String> keys) {
-        return copyData(clazzD, arg, keys, null);
+        return copyData(clazzD, arg, keys, null, null);
     }
 
     /**
@@ -52,7 +60,17 @@ public class DataUtils {
      * @param keyMap <k,v> k:D中字段 v:A中字段
      */
     public static <D, A> D copyData(Class<D> clazzD, A arg, Map<String, String> keyMap) {
-        return copyData(clazzD, arg, null, keyMap);
+        return copyData(clazzD, arg, null, keyMap, null);
+    }
+
+    /**
+     * 部分字段使用keyMap指定的关系对应起来
+     *
+     * @param keyMap <k,v> k:D中字段 v:A中字段
+     * @param exceptKeySet 排除的字段集
+     */
+    public static <D, A> D copyData(Class<D> clazzD, A arg, Map<String, String> keyMap, Set<String> exceptKeySet) {
+        return copyData(clazzD, arg, null, keyMap, exceptKeySet);
     }
 
     /**
@@ -63,7 +81,7 @@ public class DataUtils {
      * @param keys   指定要copy数据的字段名
      * @param keyMap <k,v> k:D中字段 v:A中字段
      */
-    public static <D, A> D copyData(Class<D> clazzD, A arg, List<String> keys, Map<String, String> keyMap) {
+    public static <D, A> D copyData(Class<D> clazzD, A arg, List<String> keys, Map<String, String> keyMap, Set<String> exceptKeySet) {
         if (arg == null || clazzD == null) return null;
 
         //1,如果未提供keys则默认使用D类所有字段名
@@ -82,7 +100,7 @@ public class DataUtils {
         if (errorKeySet.size() > 0)
             LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}", errorKeySet);
 
-        return (D) compose(arg, clazzD, clazzA, keys, keyMap, errorKeySet);
+        return (D) compose(arg, clazzD, clazzA, keys, keyMap, exceptKeySet, errorKeySet);
     }
 
 
@@ -98,7 +116,16 @@ public class DataUtils {
      * @return D的数据集
      */
     public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args) {
-        return attachDatas(clazzD, null, args, null, null);
+        return attachDatas(clazzD, null, args, null, null, null);
+    }
+
+    /**
+     * 将A的数据集，按照名称直接对应copy为一个新的D的数据集
+     * @param args A的数据集
+     * @param exceptKeySet 排除的字段集
+     */
+    public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args, Set<String> exceptKeySet) {
+        return attachDatas(clazzD, null, args, null, null, exceptKeySet);
     }
 
     /**
@@ -110,19 +137,29 @@ public class DataUtils {
      * @return D的数据集
      */
     public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, List<String> keys) {
-        return attachDatas(clzzD, null, args, keys, null);
+        return attachDatas(clzzD, null, args, keys, null, null);
     }
 
     /**
      * 将A的数据集按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
      * 要求：相同的字段名有相同的数据类型（可解决）
      *
-     * @param args   A的数据集
+     * @param args A的数据集
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
     public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, Map<String, String> keyMap) {
-        return attachDatas(clzzD, null, args, null, keyMap);
+        return attachDatas(clzzD, null, args, null, keyMap, null);
+    }
+
+    /**
+     * 将A的数据集按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
+     * @param args A的数据集
+     * @param keyMap <k,v> k为D中字段名，v为A中字段名
+     * @param exceptKeySet 排除的字段集
+     */
+    public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
+        return attachDatas(clzzD, null, args, null, keyMap, exceptKeySet);
     }
 
     /**
@@ -135,7 +172,7 @@ public class DataUtils {
      * @return D的数据集
      */
     public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args, List<String> keys, Map<String, String> keyMap) {
-        return attachDatas(clazzD, null, args, keys, keyMap);
+        return attachDatas(clazzD, null, args, keys, keyMap, null);
     }
 
     /**
@@ -149,7 +186,18 @@ public class DataUtils {
      * @return D的数据集
      */
     public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args) {
-        return attachDatas(null, dogs, args, null, null);
+        return attachDatas(null, dogs, args, null, null, null);
+    }
+
+    /**
+     * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
+     * 要求：dogs中至少要有一条数据
+     * @param dogs D的数据集
+     * @param args A的数据集
+     * @param exceptKeySet 排除的字段集
+     */
+    public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, Set<String> exceptKeySet) {
+        return attachDatas(null, dogs, args, null, null, exceptKeySet);
     }
 
     /**
@@ -159,7 +207,16 @@ public class DataUtils {
      * 说明，dogs可以为空或空集
      */
     public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args) {
-        return attachDatas(clazzD, dogs, args, null, null);
+        return attachDatas(clazzD, dogs, args, null, null, null);
+    }
+
+    /**
+     * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
+     * 说明，dogs可以为空或空集
+     * @param exceptKeySet 排除的字段
+     */
+    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Set<String> exceptKeySet) {
+        return attachDatas(clazzD, dogs, args, null, null, exceptKeySet);
     }
 
     /**
@@ -168,21 +225,28 @@ public class DataUtils {
      * 要求：keys当有数据
      */
     public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys) {
-        return attachDatas(null, dogs, args, keys, null);
+        return attachDatas(null, dogs, args, keys, null, null);
     }
 
     /**
      * 有map无keys有clazzD
      */
     public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap) {
-        return attachDatas(clazzD, dogs, args, null, keyMap);
+        return attachDatas(clazzD, dogs, args, null, keyMap, null);
+    }
+
+    /**
+     * 有map无keys有clazzD带exceptKeySet
+     */
+    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
+        return attachDatas(clazzD, dogs, args, null, keyMap, exceptKeySet);
     }
 
     /**
      * 有map有keys无clazzD
      */
     public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap) {
-        return attachDatas(null, dogs, args, keys, keyMap);
+        return attachDatas(null, dogs, args, keys, keyMap, null);
     }
 
     /**
@@ -200,7 +264,7 @@ public class DataUtils {
      * @param <A>    现提供数据的集合元素的数据类型
      * @return 处理后的D类型数据集合
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap) {
+    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap, Set<String> exceptKeySet) {
         if (args == null || args.size() <= 0) return dogs;
 
         //1,如果未提供keys则默认使用D类所有字段名
@@ -227,14 +291,14 @@ public class DataUtils {
         //2,遍历args
         for (A a : args) {
             Class clazzA = a.getClass();
-            dogs.add((D) compose(a, clazzD, clazzA, keys, keyMap, errorKeySet));
+            dogs.add((D) compose(a, clazzD, clazzA, keys, keyMap, exceptKeySet, errorKeySet));
         }
         if (errorKeySet.size() > 0)
             LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}", errorKeySet);
         return dogs;
     }
 
-    public static <D, A> D compose(A a, Class<D> clazzD, Class<A> clazzA, List<String> keys, Map<String, String> keyMap, Set<String> errorKeySet) {
+    private static <D, A> D compose(A a, Class<D> clazzD, Class<A> clazzA, List<String> keys, Map<String, String> keyMap, Set<String> exceptKeySet, Set<String> errorKeySet) {
         D d = null;
         try {
             d = clazzD.newInstance();
@@ -244,7 +308,7 @@ public class DataUtils {
             e.printStackTrace();
         }
         for (String key : keys) {
-            if ("serialVersionUID".equals(key)) continue;
+            if ("serialVersionUID".equals(key) || exceptKeySet.contains(key)) continue;
 
             //默认取相同名称的字段
             String valueKey = key;
