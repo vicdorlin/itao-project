@@ -308,7 +308,7 @@ public class DataUtils {
             e.printStackTrace();
         }
         for (String key : keys) {
-            if ("serialVersionUID".equals(key) || exceptKeySet.contains(key)) continue;
+            if ("serialVersionUID".equals(key) || (exceptKeySet != null && exceptKeySet.contains(key))) continue;
 
             //默认取相同名称的字段
             String valueKey = key;
