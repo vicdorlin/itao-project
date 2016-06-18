@@ -29,6 +29,16 @@ public class DataUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
 
     /**
+     * 清除对象个别字段的数据，重置为初始化值
+     *
+     * @param eraseKeySet 要清除数据的字段集
+     */
+    public static <D> D eraseData(D d, Set<String> eraseKeySet) {
+        if (d == null || eraseKeySet == null || eraseKeySet.size() <= 0) return d;
+        return (D) copyData(d.getClass(), d, eraseKeySet);
+    }
+
+    /**
      * （若符合要求（即存在数据传递关系的类之间相同字段名对应字段类型也相同，
      * 且对参与数据传递的字段没有其他限制（即无需keys），
      * 并且只进行同名字段传递(即无需keyMap)），
@@ -41,10 +51,11 @@ public class DataUtils {
 
     /**
      * 加了个需要排除的字段集集
+     *
      * @param exceptKeySet 排除的字段集
      */
     public static <D, A> D copyData(Class<D> clazzD, A arg, Set<String> exceptKeySet) {
-        return copyData(clazzD,arg,null,null,exceptKeySet);
+        return copyData(clazzD, arg, null, null, exceptKeySet);
     }
 
     /**
@@ -66,7 +77,7 @@ public class DataUtils {
     /**
      * 部分字段使用keyMap指定的关系对应起来
      *
-     * @param keyMap <k,v> k:D中字段 v:A中字段
+     * @param keyMap       <k,v> k:D中字段 v:A中字段
      * @param exceptKeySet 排除的字段集
      */
     public static <D, A> D copyData(Class<D> clazzD, A arg, Map<String, String> keyMap, Set<String> exceptKeySet) {
@@ -121,7 +132,8 @@ public class DataUtils {
 
     /**
      * 将A的数据集，按照名称直接对应copy为一个新的D的数据集
-     * @param args A的数据集
+     *
+     * @param args         A的数据集
      * @param exceptKeySet 排除的字段集
      */
     public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args, Set<String> exceptKeySet) {
@@ -144,7 +156,7 @@ public class DataUtils {
      * 将A的数据集按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
      * 要求：相同的字段名有相同的数据类型（可解决）
      *
-     * @param args A的数据集
+     * @param args   A的数据集
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
@@ -154,8 +166,9 @@ public class DataUtils {
 
     /**
      * 将A的数据集按照字段名称直接对应(部分字段按照keyMap中指定的关系对应)copy为一个新的D的数据集
-     * @param args A的数据集
-     * @param keyMap <k,v> k为D中字段名，v为A中字段名
+     *
+     * @param args         A的数据集
+     * @param keyMap       <k,v> k为D中字段名，v为A中字段名
      * @param exceptKeySet 排除的字段集
      */
     public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
@@ -192,8 +205,9 @@ public class DataUtils {
     /**
      * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
      * 要求：dogs中至少要有一条数据
-     * @param dogs D的数据集
-     * @param args A的数据集
+     *
+     * @param dogs         D的数据集
+     * @param args         A的数据集
      * @param exceptKeySet 排除的字段集
      */
     public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, Set<String> exceptKeySet) {
@@ -213,10 +227,22 @@ public class DataUtils {
     /**
      * 将A的数据集，按照字段对应关系copy添加到D的数据集，以丰富dogs
      * 说明，dogs可以为空或空集
+     *
      * @param exceptKeySet 排除的字段
      */
     public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Set<String> exceptKeySet) {
         return attachDatas(clazzD, dogs, args, null, null, exceptKeySet);
+    }
+
+    /**
+     * 擦除list中所有元素中指定的几个字段
+     *
+     * @param dList       操作集合
+     * @param eraseKeySet 要擦除后期数据的字段
+     */
+    public static <D> List<D> eraseDatas(List<D> dList, Set<String> eraseKeySet) {
+        if (dList == null || dList.size() <= 0 || eraseKeySet == null || eraseKeySet.size() <= 0) return dList;
+        return (List<D>) attachDatas(dList.get(0).getClass(), null, dList, null, null, eraseKeySet);
     }
 
     /**
