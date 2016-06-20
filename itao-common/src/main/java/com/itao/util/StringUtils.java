@@ -125,6 +125,9 @@ public abstract class StringUtils {
 		return out.toString();
 	}
 
+	/**
+	 * 驼峰命名风格改下划线命名风格
+     */
 	public static String toUnderlineStyle(String name) {
 		StringBuilder newName = new StringBuilder();
 		for (int i = 0; i < name.length(); i++) {
@@ -177,6 +180,19 @@ public abstract class StringUtils {
 		StringBuffer sb = new StringBuffer(str);
 	    sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
 		return sb.toString(); 
+	}
+
+	/**
+	 * 从字符串提取数值并以{mark}间隔
+	 * @param item
+	 * @param mark
+	 * @return
+	 */
+	public static String extramDecimalAndSplitByMark(String item, String mark) {
+		item = item.replaceAll("\\D+", mark);
+		if (item.startsWith(mark)) item = item.substring(mark.length());
+		if (item.endsWith(mark)) item = item.substring(0, item.length() - mark.length());
+		return item;
 	}
 
 }
