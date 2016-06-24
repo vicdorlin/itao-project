@@ -1,6 +1,7 @@
 package com.itao.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.Date;
 
@@ -12,7 +13,11 @@ public class DateUtils {
      * 默认时间格式
      */
     public static final String DATE_DEFAULT = "yyyy-MM-dd HH:mm:ss";
+
     public static final String DATE_YYYYMMDD = "yyyyMMdd";
+    public static final String DATE_YYYY_MM = "yyyy-MM";
+    public static final String DATE_YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String DATE_M_D = "M-d";
 
     /**
      * 获取当前时间指定格式时间字符串
@@ -49,6 +54,34 @@ public class DateUtils {
     public static String getDateStr(Date date,String format){
         if(CommonUtils.notExist(format)) return getDateStr(date);
         return new DateTime(date).toString(format);
+    }
+
+    /**
+     * 得到某一天0时的DateTime
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     * @return
+     */
+    public static DateTime getDateTime(int year,int monthOfYear,int dayOfMonth){
+        return new DateTime(year,monthOfYear,dayOfMonth,0,0);
+    }
+
+    /**
+     * 指定格式时间字符串转DateTime
+     * @param timeText
+     * @param format
+     * @return
+     */
+    public static DateTime getDateTime(String timeText, String format){
+        return DateTimeFormat.forPattern(format).parseDateTime(timeText);
+    }
+
+    public static void main(String[] args) {
+        DateTime yesterdayStart = new DateTime().dayOfMonth().addToCopy(-1).hourOfDay().setCopy(0).minuteOfHour().setCopy(0).secondOfMinute().setCopy(0);
+        DateTime yesterdayEnd = yesterdayStart.hourOfDay().addToCopy(23).minuteOfHour().addToCopy(59).secondOfMinute().setCopy(59);
+        System.out.println("===  === " + yesterdayStart.toString(DATE_DEFAULT));
+        System.out.println("===  === " + yesterdayEnd.toString(DATE_DEFAULT));
     }
 
 }
