@@ -10,6 +10,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -350,11 +352,22 @@ public class DataUtils {
                 Method aGetter = pdA.getReadMethod();
                 Object fieldValueA = aGetter.invoke(a);
 
-                //此处fieldValueA类型可能与D中相应字段不匹配，需要根据key值区别处理
+                //此处fieldValueA类型可能与D中相应字段不匹配，需要根据key值区别处理，默认可以转为String
 
                 PropertyDescriptor pdD = new PropertyDescriptor(key, clazzD);
                 Method dSetter = pdD.getWriteMethod();
-                dSetter.invoke(d, fieldValueA);
+                try {
+                    dSetter.invoke(d, fieldValueA);
+                }catch (IllegalArgumentException e){
+                    //如果类型不对应,尝试转为String
+                    String val;
+                    if(fieldValueA instanceof Date){
+                        val = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) fieldValueA);
+                    }else {
+                        val = String.valueOf(fieldValueA);
+                    }
+                    dSetter.invoke(d,val);
+                }
             } catch (IntrospectionException e) {
                     /*创建PropertyDescriptor失败，指定字段名（key）不存在于相应类中
                     或无其对应getters(boolean字段可以为is开头) or setters*/
