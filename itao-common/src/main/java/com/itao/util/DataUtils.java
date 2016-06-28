@@ -1,5 +1,6 @@
 package com.itao.util;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -29,6 +30,24 @@ import java.util.Set;
 public class DataUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
+
+    /**
+     * 可以理解为万用toString
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static <T> String transferToString(T t){
+        if(t instanceof String){
+            return (String) t;
+        }else if(t instanceof Date){
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(t);
+        }else if(t instanceof Number || t instanceof Character || t instanceof Boolean){
+            return String.valueOf(t);
+        }else {
+            return JSON.toJSONString(t);
+        }
+    }
 
     /**
      * 清除对象个别字段的数据，重置为初始化值
@@ -360,13 +379,7 @@ public class DataUtils {
                     dSetter.invoke(d, fieldValueA);
                 }catch (IllegalArgumentException e){
                     //如果类型不对应,尝试转为String
-                    String val;
-                    if(fieldValueA instanceof Date){
-                        val = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) fieldValueA);
-                    }else {
-                        val = String.valueOf(fieldValueA);
-                    }
-                    dSetter.invoke(d,val);
+                    dSetter.invoke(d,transferToString(fieldValueA));
                 }
             } catch (IntrospectionException e) {
                     /*创建PropertyDescriptor失败，指定字段名（key）不存在于相应类中
