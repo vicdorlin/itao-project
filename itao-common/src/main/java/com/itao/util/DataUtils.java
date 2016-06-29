@@ -2,6 +2,7 @@ package com.itao.util;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -429,5 +430,28 @@ public class DataUtils {
             }
         }
         return d;
+    }
+
+    /**
+     * 将符合bean规范的对象按<字段名,属性值>转为Map
+     * @throws IntrospectionException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public <T> Map<String,Object> transferBeanToMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Map<String,Object> map = Maps.newHashMap();
+        if(t == null) return map;
+        Class clazz = t.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            String key = field.getName();
+            if("serialVersionUID".equals(key)) continue;
+            PropertyDescriptor descriptor = new PropertyDescriptor(key,clazz);
+            Method getter = descriptor.getReadMethod();
+            Object o = getter.invoke(t);
+            if(o == null) continue;
+            map.put(key,o);
+        }
+        return map;
     }
 }
