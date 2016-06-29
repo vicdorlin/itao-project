@@ -11,11 +11,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用于封装一些数据的处理
@@ -30,22 +28,52 @@ import java.util.Set;
 public class DataUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
+    private static final List<String> DATE_FORMATS = Arrays.asList("yyyy-MM-dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss"
+            , "yyyy-MM-dd", "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM", "yyyyMM", "yyyy/MM");
 
     /**
      * 可以理解为万用toString
+     *
      * @param t
      * @param <T>
      * @return
      */
-    public static <T> String transferToString(T t){
-        if(t instanceof String){
-            return (String) t;
-        }else if(t instanceof Date){
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(t);
-        }else if(t instanceof Number || t instanceof Character || t instanceof Boolean){
-            return String.valueOf(t);
-        }else {
-            return JSON.toJSONString(t);
+    public static <T> String transferToString(T t) {
+        if (t == null) return null;
+        if (t instanceof String) return (String) t;
+        if (t instanceof Date) return new SimpleDateFormat(DATE_FORMATS.get(0)).format(t);
+        if (t instanceof Number || t instanceof Character || t instanceof Boolean) return String.valueOf(t);
+        return JSON.toJSONString(t);
+    }
+
+    /**
+     * 尝试将对象转为Date
+     *
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static <T> Date transferToDate(T t) {
+        if (t == null) return null;
+        if (t instanceof Date) return (Date) t;
+
+        if (t instanceof String) {
+            for (String dateFormat : DATE_FORMATS) {
+                Date date = transferStringToDate((String) t, dateFormat);
+                if (date != null) return date;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 将字符串按指定格式转为Date
+     */
+    public static Date transferStringToDate(String text, String format) {
+        try {
+            return new SimpleDateFormat(format).parse(text);
+        } catch (ParseException e) {
+            return null;
         }
     }
 
@@ -377,9 +405,14 @@ public class DataUtils {
                 Method dSetter = pdD.getWriteMethod();
                 try {
                     dSetter.invoke(d, fieldValueA);
-                }catch (IllegalArgumentException e){
-                    //如果类型不对应,尝试转为String
-                    dSetter.invoke(d,transferToString(fieldValueA));
+                } catch (IllegalArgumentException e) {
+                    try {
+                        //如果类型不对应,尝试转为String
+                        dSetter.invoke(d, transferToString(fieldValueA));
+                    } catch (IllegalArgumentException exception) {
+                        //如果类型依旧不对，尝试转为Date
+                        dSetter.invoke(d, transferToDate(fieldValueA));
+                    }
                 }
             } catch (IntrospectionException e) {
                     /*创建PropertyDescriptor失败，指定字段名（key）不存在于相应类中
