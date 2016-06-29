@@ -454,4 +454,27 @@ public class DataUtils {
         }
         return map;
     }
+
+    /**
+     * 将符合bean规范的对象按<字段名,属性值>转为Map<String,String> value若为非常用引用类型，则转为json
+     * @throws IntrospectionException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public static <T> Map<String,String> transferBeanToStringMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        HashMap<String,String> map = Maps.newHashMap();
+        if(t == null) return map;
+        Class clazz = t.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            String key = field.getName();
+            if("serialVersionUID".equals(key)) continue;
+            PropertyDescriptor descriptor = new PropertyDescriptor(key,clazz);
+            Method getter = descriptor.getReadMethod();
+            Object o = getter.invoke(t);
+            if(o == null) continue;
+            map.put(key,transferToString(o));
+        }
+        return map;
+    }
 }
