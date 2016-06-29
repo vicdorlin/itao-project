@@ -438,7 +438,7 @@ public class DataUtils {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public <T> Map<String,Object> transferBeanToMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+    public static  <T> Map<String,Object> transferBeanToMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
         Map<String,Object> map = Maps.newHashMap();
         if(t == null) return map;
         Class clazz = t.getClass();
