@@ -1,11 +1,8 @@
 package com.itao.util;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.itao.exception.FailToCreatePropertyDescriptorException;
+import com.itao.exception.ParameterTypeMismatchException;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -19,16 +16,15 @@ import java.util.*;
 /**
  * 用于封装一些数据的处理
  * 1，A copyTo D : [组装另一个类型的对象]：【推荐】 D copyData(Class<D> clazzD, A arg)
- * 2，List<A> copyListTo List<D> : [填充新的list]：【推荐】 List<D> copyDatas(Class<D> clazzD, List<A> args)
- * 3，List<A> copyListTo List<D> : [补充原有的list]：【推荐】 List<D> attachDatas(List<D> dogs, List<A> args)
- * 4，List<A> copyListTo List<D> : [补充原有的list（dogs为空或空集则同2）]：【推荐】 List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args)
+ * 2，List<A> copyListTo List<D> : [填充新的list]：【推荐】 List<D> copyList(Class<D> clazzD, List<A> args)
+ * 3，List<A> copyListTo List<D> : [补充原有的list]：【推荐】 List<D> attachList(List<D> dogs, List<A> args)
+ * 4，List<A> copyListTo List<D> : [补充原有的list（dogs为空或空集则同2）]：【推荐】 List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args)
  *
  * @author vicdor
  * @create 2016-06-15 11:17
  */
 public class DataUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataUtils.class);
     private static final List<String> DATE_FORMATS = Arrays.asList("yyyy-MM-dd HH:mm:ss", "yyyy/MM/dd HH:mm:ss"
             , "yyyy-MM-dd", "yyyyMMdd", "yyyy/MM/dd", "yyyy-MM", "yyyyMM", "yyyy/MM");
 
@@ -148,25 +144,24 @@ public class DataUtils {
         //1,如果未提供keys则默认使用D类所有字段名
         if (keys == null || keys.size() == 0) {
             Field[] dFields = clazzD.getDeclaredFields();
-            keys = Lists.newArrayList();
+            keys = new ArrayList();
             for (Field field : dFields) {
                 keys.add(field.getName());
             }
         }
 
         //用于存储收集的问题key
-        Set<String> errorKeySet = Sets.newHashSet();
+        Set<String> errorKeySet = new HashSet();
         Class clazzA = arg.getClass();
 
         if (errorKeySet.size() > 0)
-            LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}", errorKeySet);
-
+            throw new FailToCreatePropertyDescriptorException("Fail to create PropertyDescriptor for errorKeySet:" + transferToString(errorKeySet));
         return (D) compose(arg, clazzD, clazzA, keys, keyMap, exceptKeySet, errorKeySet);
     }
 
 
 
-    /*===copyDatas意味着生成=======【list数据操作】======attachDatas意味着附加，即不断往传入的dogs中添加数据===*/
+    /*===copyList意味着生成=======【list数据操作】======attachList意味着附加，即不断往传入的dogs中添加数据===*/
 
     /**
      * (若符合默认规则推荐使用)
@@ -176,8 +171,8 @@ public class DataUtils {
      * @param args A的数据集
      * @return D的数据集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args) {
-        return attachDatas(clazzD, null, args, null, null, null);
+    public static <D, A> List<D> copyList(Class<D> clazzD, List<A> args) {
+        return attachList(clazzD, null, args, null, null, null);
     }
 
     /**
@@ -186,8 +181,8 @@ public class DataUtils {
      * @param args         A的数据集
      * @param exceptKeySet 排除的字段集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args, Set<String> exceptKeySet) {
-        return attachDatas(clazzD, null, args, null, null, exceptKeySet);
+    public static <D, A> List<D> copyList(Class<D> clazzD, List<A> args, Set<String> exceptKeySet) {
+        return attachList(clazzD, null, args, null, null, exceptKeySet);
     }
 
     /**
@@ -198,8 +193,8 @@ public class DataUtils {
      * @param keys 指定的D的字段
      * @return D的数据集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, List<String> keys) {
-        return attachDatas(clzzD, null, args, keys, null, null);
+    public static <D, A> List<D> copyList(Class<D> clzzD, List<A> args, List<String> keys) {
+        return attachList(clzzD, null, args, keys, null, null);
     }
 
     /**
@@ -210,8 +205,8 @@ public class DataUtils {
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, Map<String, String> keyMap) {
-        return attachDatas(clzzD, null, args, null, keyMap, null);
+    public static <D, A> List<D> copyList(Class<D> clzzD, List<A> args, Map<String, String> keyMap) {
+        return attachList(clzzD, null, args, null, keyMap, null);
     }
 
     /**
@@ -221,8 +216,8 @@ public class DataUtils {
      * @param keyMap       <k,v> k为D中字段名，v为A中字段名
      * @param exceptKeySet 排除的字段集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clzzD, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
-        return attachDatas(clzzD, null, args, null, keyMap, exceptKeySet);
+    public static <D, A> List<D> copyList(Class<D> clzzD, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
+        return attachList(clzzD, null, args, null, keyMap, exceptKeySet);
     }
 
     /**
@@ -234,8 +229,8 @@ public class DataUtils {
      * @param keyMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public static <D, A> List<D> copyDatas(Class<D> clazzD, List<A> args, List<String> keys, Map<String, String> keyMap) {
-        return attachDatas(clazzD, null, args, keys, keyMap, null);
+    public static <D, A> List<D> copyList(Class<D> clazzD, List<A> args, List<String> keys, Map<String, String> keyMap) {
+        return attachList(clazzD, null, args, keys, keyMap, null);
     }
 
     /**
@@ -248,8 +243,8 @@ public class DataUtils {
      * @param args A的数据集
      * @return D的数据集
      */
-    public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args) {
-        return attachDatas(null, dogs, args, null, null, null);
+    public static <D, A> List<D> attachList(List<D> dogs, List<A> args) {
+        return attachList(null, dogs, args, null, null, null);
     }
 
     /**
@@ -260,8 +255,8 @@ public class DataUtils {
      * @param args         A的数据集
      * @param exceptKeySet 排除的字段集
      */
-    public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, Set<String> exceptKeySet) {
-        return attachDatas(null, dogs, args, null, null, exceptKeySet);
+    public static <D, A> List<D> attachList(List<D> dogs, List<A> args, Set<String> exceptKeySet) {
+        return attachList(null, dogs, args, null, null, exceptKeySet);
     }
 
     /**
@@ -270,8 +265,8 @@ public class DataUtils {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 说明，dogs可以为空或空集
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args) {
-        return attachDatas(clazzD, dogs, args, null, null, null);
+    public static <D, A> List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args) {
+        return attachList(clazzD, dogs, args, null, null, null);
     }
 
     /**
@@ -280,8 +275,8 @@ public class DataUtils {
      *
      * @param exceptKeySet 排除的字段
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Set<String> exceptKeySet) {
-        return attachDatas(clazzD, dogs, args, null, null, exceptKeySet);
+    public static <D, A> List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args, Set<String> exceptKeySet) {
+        return attachList(clazzD, dogs, args, null, null, exceptKeySet);
     }
 
     /**
@@ -290,9 +285,9 @@ public class DataUtils {
      * @param dList       操作集合
      * @param eraseKeySet 要擦除后期数据的字段
      */
-    public static <D> List<D> eraseDatas(List<D> dList, Set<String> eraseKeySet) {
+    public static <D> List<D> eraseList(List<D> dList, Set<String> eraseKeySet) {
         if (dList == null || dList.size() <= 0 || eraseKeySet == null || eraseKeySet.size() <= 0) return dList;
-        return (List<D>) attachDatas(dList.get(0).getClass(), null, dList, null, null, eraseKeySet);
+        return (List<D>) attachList(dList.get(0).getClass(), null, dList, null, null, eraseKeySet);
     }
 
     /**
@@ -300,29 +295,29 @@ public class DataUtils {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 要求：keys当有数据
      */
-    public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys) {
-        return attachDatas(null, dogs, args, keys, null, null);
+    public static <D, A> List<D> attachList(List<D> dogs, List<A> args, List<String> keys) {
+        return attachList(null, dogs, args, keys, null, null);
     }
 
     /**
      * 有map无keys有clazzD
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap) {
-        return attachDatas(clazzD, dogs, args, null, keyMap, null);
+    public static <D, A> List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap) {
+        return attachList(clazzD, dogs, args, null, keyMap, null);
     }
 
     /**
      * 有map无keys有clazzD带exceptKeySet
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
-        return attachDatas(clazzD, dogs, args, null, keyMap, exceptKeySet);
+    public static <D, A> List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args, Map<String, String> keyMap, Set<String> exceptKeySet) {
+        return attachList(clazzD, dogs, args, null, keyMap, exceptKeySet);
     }
 
     /**
      * 有map有keys无clazzD
      */
-    public static <D, A> List<D> attachDatas(List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap) {
-        return attachDatas(null, dogs, args, keys, keyMap, null);
+    public static <D, A> List<D> attachList(List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap) {
+        return attachList(null, dogs, args, keys, keyMap, null);
     }
 
     /**
@@ -340,7 +335,7 @@ public class DataUtils {
      * @param <A>    现提供数据的集合元素的数据类型
      * @return 处理后的D类型数据集合
      */
-    public static <D, A> List<D> attachDatas(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap, Set<String> exceptKeySet) {
+    public static <D, A> List<D> attachList(Class<D> clazzD, List<D> dogs, List<A> args, List<String> keys, Map<String, String> keyMap, Set<String> exceptKeySet) {
         if (args == null || args.size() <= 0) return dogs;
 
         //1,如果未提供keys则默认使用D类所有字段名
@@ -354,23 +349,23 @@ public class DataUtils {
             } else {
                 dFields = clazzD.getDeclaredFields();
             }
-            keys = Lists.newArrayList();
+            keys = new ArrayList();
             for (Field field : dFields) {
                 keys.add(field.getName());
             }
         }
 
-        if (dogs == null) dogs = Lists.newArrayList();
+        if (dogs == null) dogs = new ArrayList();
 
         //用于存储收集的问题key
-        Set<String> errorKeySet = Sets.newHashSet();
+        Set<String> errorKeySet = new HashSet();
         //2,遍历args
         for (A a : args) {
             Class clazzA = a.getClass();
             dogs.add((D) compose(a, clazzD, clazzA, keys, keyMap, exceptKeySet, errorKeySet));
         }
         if (errorKeySet.size() > 0)
-            LOGGER.info("1000 === 创建PropertyDescriptor失败 === errorKeySet:{}", errorKeySet);
+            throw new FailToCreatePropertyDescriptorException("Fail to create PropertyDescriptor for errorKeySet:" + transferToString(errorKeySet));
         return dogs;
     }
 
@@ -426,7 +421,7 @@ public class DataUtils {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 /*参数类型不匹配*/
-                LOGGER.info("1002 === 参数类型不匹配 === key:{}", key);
+                throw new ParameterTypeMismatchException("parameter type mismatch. field name:" + key, e);
             }
         }
         return d;
@@ -434,46 +429,48 @@ public class DataUtils {
 
     /**
      * 将符合bean规范的对象按<字段名,属性值>转为Map
+     *
      * @throws IntrospectionException
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static <T> Map<String,Object> transferBeanToMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        Map<String,Object> map = Maps.newHashMap();
-        if(t == null) return map;
+    public static <T> Map<String, Object> transferBeanToMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        Map<String, Object> map = new HashMap();
+        if (t == null) return map;
         Class clazz = t.getClass();
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             String key = field.getName();
-            if("serialVersionUID".equals(key)) continue;
-            PropertyDescriptor descriptor = new PropertyDescriptor(key,clazz);
+            if ("serialVersionUID".equals(key)) continue;
+            PropertyDescriptor descriptor = new PropertyDescriptor(key, clazz);
             Method getter = descriptor.getReadMethod();
             Object o = getter.invoke(t);
-            if(o == null) continue;
-            map.put(key,o);
+            if (o == null) continue;
+            map.put(key, o);
         }
         return map;
     }
 
     /**
      * 将符合bean规范的对象按<字段名,属性值>转为Map<String,String> value若为非常用引用类型，则转为json
+     *
      * @throws IntrospectionException
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static <T> Map<String,String> transferBeanToStringMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        HashMap<String,String> map = Maps.newHashMap();
-        if(t == null) return map;
+    public static <T> Map<String, String> transferBeanToStringMap(T t) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+        HashMap<String, String> map = new HashMap();
+        if (t == null) return map;
         Class clazz = t.getClass();
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             String key = field.getName();
-            if("serialVersionUID".equals(key)) continue;
-            PropertyDescriptor descriptor = new PropertyDescriptor(key,clazz);
+            if ("serialVersionUID".equals(key)) continue;
+            PropertyDescriptor descriptor = new PropertyDescriptor(key, clazz);
             Method getter = descriptor.getReadMethod();
             Object o = getter.invoke(t);
-            if(o == null) continue;
-            map.put(key,transferToString(o));
+            if (o == null) continue;
+            map.put(key, transferToString(o));
         }
         return map;
     }
