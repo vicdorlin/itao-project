@@ -2,9 +2,6 @@ package com.itao.rest.controller;
 
 import com.itao.rest.domain.CatResult;
 import com.itao.rest.service.ItemCatService;
-import static com.itao.util.JsonUtils.*;
-
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +28,7 @@ public class ItemCatController {
     }*/
     @RequestMapping("all")
     @ResponseBody
-    public Object getItemCatList(String callback){
+    public Object getItemCatList(String callback) {
         CatResult catResult = itemCatService.getItemCatList();
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(catResult);
         mappingJacksonValue.setJsonpFunction(callback);
