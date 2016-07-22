@@ -107,7 +107,7 @@ public class DataPorter {
 
         if (fieldNames == null) {               //1,如果未提供fieldNames则默认使用D类所有字段名
             fieldNames = extractFieldNames(clazzD);
-        }else if(fieldNames.size() == 0){       //2,如果提供内容为空的fieldNames,则默认使用A类型所有字段名
+        } else if (fieldNames.size() == 0) {       //2,如果提供内容为空的fieldNames,则默认使用A类型所有字段名
             fieldNames = extractFieldNames(fromData.getClass());
         }
 
@@ -297,15 +297,15 @@ public class DataPorter {
         if (fromList == null || fromList.size() <= 0) return list;
 
         //1,如果未提供fieldNames则默认使用D类所有字段名
-        if(fieldNames == null){
+        if (fieldNames == null) {
             if (clazzD == null) {
                 //fieldNames没有，classD有咩有，list也没点东西，玩毛...
                 if (list == null || list.size() <= 0) return list;
                 fieldNames = extractFieldNames(list.get(0).getClass());
-            }else {
+            } else {
                 fieldNames = extractFieldNames(clazzD);
             }
-        }else if(fieldNames.size() == 0){
+        } else if (fieldNames.size() == 0) {
             fieldNames = extractFieldNames(fromList.get(0).getClass());
         }
 
@@ -403,13 +403,14 @@ public class DataPorter {
 
     /**
      * 提取一个类的字段名列表
+     *
      * @param clazz
      * @return
      */
-    public List<String> extractFieldNames(Class<?> clazz){
+    public List<String> extractFieldNames(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         List<String> fieldNames = new ArrayList<String>();
-        if(fields.length > 0)
+        if (fields.length > 0)
             for (Field field : fields) {
                 fieldNames.add(field.getName());
             }
