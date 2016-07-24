@@ -1,6 +1,7 @@
 package com.itao.service.impl;
 
 import com.google.common.collect.Maps;
+import com.itao.enums.DateFormatEnum;
 import com.itao.service.PictureService;
 import com.itao.util.CommonUtils;
 import com.itao.util.DateUtils;
@@ -37,7 +38,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public Map<String,Object> uploadPictrue(MultipartFile uploadFile) throws IOException {
         Map<String,Object> resultMap = Maps.newHashMap();
-        String imagePath = DateUtils.getDateStr(DateUtils.DATE_YYYYMMDD);
+        String imagePath = DateUtils.getDateStr(DateFormatEnum.YYYYMMDD.getValue());
         //TODO 抛业务异常
         if(CommonUtils.notExist(uploadFile)) return null;
         //取原文件名
