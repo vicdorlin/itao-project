@@ -37,17 +37,7 @@ public class CommonUtils {
      * @return
      */
     public static boolean notExist(Object o){
-        if(o == null) return true;
-        if(o instanceof String){
-            return ((String) o).trim().length() == 0;
-        }
-        if(o instanceof Collection){
-            return ((Collection) o).size() == 0;
-        }
-        if(o instanceof Map){
-            return ((Map) o).size() == 0;
-        }
-        return false;
+        return !exist(o);
     }
 
     /**
@@ -75,7 +65,7 @@ public class CommonUtils {
      * @return
      */
     public static boolean isSetNotEmpty(Collection collection){
-        return collection != null && collection.size() > 0;
+        return !isSetEmpty(collection);
     }
 
     /**
