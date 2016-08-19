@@ -1,10 +1,10 @@
-package com.itao.test;
+package com.itao.test.domain;
 
 /**
  * @author vicdor
  * @create 2016-08-19 17:47
  */
-public class Cat {
+public class Dog {
     private String name;
     private Integer age;
 

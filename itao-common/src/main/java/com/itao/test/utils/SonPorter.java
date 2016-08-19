@@ -1,4 +1,4 @@
-package com.itao.test;
+package com.itao.test.utils;
 
 import com.itao.warrior.DataPorter;
 

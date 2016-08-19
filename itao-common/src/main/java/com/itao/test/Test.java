@@ -1,5 +1,8 @@
 package com.itao.test;
 
+import com.itao.test.domain.Cat;
+import com.itao.test.domain.Dog;
+import com.itao.test.utils.SonPorter;
 import com.itao.util.CommonUtils;
 
 /**
