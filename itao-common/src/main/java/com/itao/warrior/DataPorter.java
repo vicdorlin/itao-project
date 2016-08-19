@@ -25,13 +25,24 @@ import static com.itao.util.CommonUtils.transferToString;
 public class DataPorter<D> {
 
     /**
+     * 将一个Class类强转为指定类型的Class
+     *
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings(value = "unchecked")
+    public Class<D> classCast(Class<?> clazz) {
+        return (Class<D>) clazz;
+    }
+
+    /**
      * 清除对象个别字段的数据，重置为初始化值
      *
      * @param eraseFieldsSet 要清除数据的字段集
      */
     public D eraseData(D d, Set<String> eraseFieldsSet) {
         if (d == null || eraseFieldsSet == null || eraseFieldsSet.size() <= 0) return d;
-        return copyData((Class<D>) d.getClass(), d, eraseFieldsSet);
+        return copyData(classCast(d.getClass()), d, eraseFieldsSet);
     }
 
     /**
@@ -100,7 +111,7 @@ public class DataPorter<D> {
         return compose(fromData, clazzD, fieldNames, correspondingFieldsMap, exceptFieldsSet);
     }
 
-    /*===copyList意味着生成=======【list数据操作】======attachList意味着附加，即不断往传入的list中添加数据===*/
+    /*===copyList意味着生成=======【list数据操作】======attachList意味着附加，即不断往传入的list中添加数据===*//*
 
     /**
      * (若符合默认规则推荐使用)
@@ -226,7 +237,7 @@ public class DataPorter<D> {
      */
     public List<D> eraseList(List<D> dList, Set<String> eraseFieldsSet) {
         if (dList == null || dList.isEmpty() || eraseFieldsSet == null || eraseFieldsSet.isEmpty()) return dList;
-        return attachList((Class<D>) dList.get(0).getClass(), null, dList, null, null, eraseFieldsSet);
+        return attachList(classCast(dList.get(0).getClass()), null, dList, null, null, eraseFieldsSet);
     }
 
     /**
@@ -290,7 +301,7 @@ public class DataPorter<D> {
             fieldNames = extractFieldNames(fromList.get(0).getClass());
         }
 
-        if (list == null) list = new ArrayList();
+        if (list == null) list = new ArrayList<D>();
 
         //2,遍历fromList
         for (A a : fromList) {
@@ -307,7 +318,7 @@ public class DataPorter<D> {
         try {
             D d = clazzD.newInstance();
             if (exceptFieldsSet == null) {
-                exceptFieldsSet = new HashSet();
+                exceptFieldsSet = new HashSet<String>();
             }
             exceptFieldsSet.add("serialVersionUID");
             for (String fieldName : fieldNames) {
@@ -384,7 +395,7 @@ public class DataPorter<D> {
      * @throws IllegalAccessException
      */
     public <B> Map<String, Object> transferBeanToMap(B b) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        Map<String, Object> map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         if (b == null) return map;
         Class clazz = b.getClass();
         Field[] fields = clazz.getDeclaredFields();
@@ -408,7 +419,7 @@ public class DataPorter<D> {
      * @throws IllegalAccessException
      */
     public <B> Map<String, String> transferBeanToStringMap(B b) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        HashMap<String, String> map = new HashMap();
+        HashMap<String, String> map = new HashMap<String, String>();
         if (b == null) return map;
         Class clazz = b.getClass();
         Field[] fields = clazz.getDeclaredFields();
