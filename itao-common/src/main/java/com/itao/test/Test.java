@@ -15,6 +15,7 @@ public class Test {
         dog.setAge(11);
         dog.setName("Wang");
         Cat cat = new SonPorter().copyData(Cat.class,dog);
+//        Cat cat = DataPorter.newPorter().copyData(Cat.class,dog);
         System.out.println("===  === " + CommonUtils.transferToString(cat));
     }
 }
