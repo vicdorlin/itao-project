@@ -25,6 +25,14 @@ import static com.itao.util.CommonUtils.transferToString;
 public class DataPorter {
 
     /**
+     * 返回一个porter
+     * @return
+     */
+    public static DataPorter newPorter() {
+        return new DataPorter();
+    }
+
+    /**
      * 返回一个对象的class类型，并强转为D的class
      */
     @SuppressWarnings(value = "unchecked")
