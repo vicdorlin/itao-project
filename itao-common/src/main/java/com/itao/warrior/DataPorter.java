@@ -22,27 +22,16 @@ import static com.itao.util.CommonUtils.transferToString;
  * @author vicdor
  * @create 2016-07-11 01:42
  */
-public class DataPorter {
-
-    protected DataPorter() {
-    }
-
-    private static class PorterHolder {
-        private static final DataPorter PORTER = new DataPorter();
-    }
-
-    public static DataPorter newPorter() {
-        return PorterHolder.PORTER;
-    }
+public class DataPorter<D> {
 
     /**
      * 清除对象个别字段的数据，重置为初始化值
      *
      * @param eraseFieldsSet 要清除数据的字段集
      */
-    public <D> D eraseData(D d, Set<String> eraseFieldsSet) {
+    public D eraseData(D d, Set<String> eraseFieldsSet) {
         if (d == null || eraseFieldsSet == null || eraseFieldsSet.size() <= 0) return d;
-        return (D) copyData(d.getClass(), d, eraseFieldsSet);
+        return copyData((Class<D>) d.getClass(), d, eraseFieldsSet);
     }
 
     /**
@@ -52,7 +41,7 @@ public class DataPorter {
      * 则推荐使用）
      * 要求字段名称和类型一一对应
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData) {
+    public <A> D copyData(Class<D> clazzD, A fromData) {
         return copyData(clazzD, fromData, null, null, null);
     }
 
@@ -61,14 +50,14 @@ public class DataPorter {
      *
      * @param exceptFieldsSet 排除的字段集
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData, Set<String> exceptFieldsSet) {
+    public <A> D copyData(Class<D> clazzD, A fromData, Set<String> exceptFieldsSet) {
         return copyData(clazzD, fromData, null, null, exceptFieldsSet);
     }
 
     /**
      * 使用指定的fieldNames中的D字段
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData, List<String> fieldNames) {
+    public <A> D copyData(Class<D> clazzD, A fromData, List<String> fieldNames) {
         return copyData(clazzD, fromData, fieldNames, null, null);
     }
 
@@ -77,7 +66,7 @@ public class DataPorter {
      *
      * @param correspondingFieldsMap <k,v> k:D中字段 v:A中字段
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData, Map<String, String> correspondingFieldsMap) {
+    public <A> D copyData(Class<D> clazzD, A fromData, Map<String, String> correspondingFieldsMap) {
         return copyData(clazzD, fromData, null, correspondingFieldsMap, null);
     }
 
@@ -87,7 +76,7 @@ public class DataPorter {
      * @param correspondingFieldsMap <k,v> k:D中字段 v:A中字段
      * @param exceptFieldsSet        排除的字段集
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    public <A> D copyData(Class<D> clazzD, A fromData, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         return copyData(clazzD, fromData, null, correspondingFieldsMap, exceptFieldsSet);
     }
 
@@ -99,7 +88,7 @@ public class DataPorter {
      * @param fieldNames             指定要copy数据的字段名（为null默认D字段名list,size为0默认A字段名list）
      * @param correspondingFieldsMap <k,v> k:D中字段 v:A中字段
      */
-    public <D, A> D copyData(Class<D> clazzD, A fromData, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    public <A> D copyData(Class<D> clazzD, A fromData, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         if (fromData == null || clazzD == null) return null;
 
         if (fieldNames == null) {               //1,如果未提供fieldNames则默认使用D类所有字段名
@@ -121,7 +110,7 @@ public class DataPorter {
      * @param fromList A的数据集
      * @return D的数据集
      */
-    public <D, A> List<D> copyList(Class<D> clazzD, List<A> fromList) {
+    public <A> List<D> copyList(Class<D> clazzD, List<A> fromList) {
         return attachList(clazzD, null, fromList, null, null, null);
     }
 
@@ -131,7 +120,7 @@ public class DataPorter {
      * @param fromList        A的数据集
      * @param exceptFieldsSet 排除的字段集
      */
-    public <D, A> List<D> copyList(Class<D> clazzD, List<A> fromList, Set<String> exceptFieldsSet) {
+    public <A> List<D> copyList(Class<D> clazzD, List<A> fromList, Set<String> exceptFieldsSet) {
         return attachList(clazzD, null, fromList, null, null, exceptFieldsSet);
     }
 
@@ -143,7 +132,7 @@ public class DataPorter {
      * @param fieldNames 指定的D的字段
      * @return D的数据集
      */
-    public <D, A> List<D> copyList(Class<D> clzzD, List<A> fromList, List<String> fieldNames) {
+    public <A> List<D> copyList(Class<D> clzzD, List<A> fromList, List<String> fieldNames) {
         return attachList(clzzD, null, fromList, fieldNames, null, null);
     }
 
@@ -155,7 +144,7 @@ public class DataPorter {
      * @param correspondingFieldsMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public <D, A> List<D> copyList(Class<D> clzzD, List<A> fromList, Map<String, String> correspondingFieldsMap) {
+    public <A> List<D> copyList(Class<D> clzzD, List<A> fromList, Map<String, String> correspondingFieldsMap) {
         return attachList(clzzD, null, fromList, null, correspondingFieldsMap, null);
     }
 
@@ -166,7 +155,7 @@ public class DataPorter {
      * @param correspondingFieldsMap <k,v> k为D中字段名，v为A中字段名
      * @param exceptFieldsSet        排除的字段集
      */
-    public <D, A> List<D> copyList(Class<D> clzzD, List<A> fromList, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    public <A> List<D> copyList(Class<D> clzzD, List<A> fromList, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         return attachList(clzzD, null, fromList, null, correspondingFieldsMap, exceptFieldsSet);
     }
 
@@ -179,7 +168,7 @@ public class DataPorter {
      * @param correspondingFieldsMap <k,v> k为D中字段名，v为A中字段名
      * @return D的数据集
      */
-    public <D, A> List<D> copyList(Class<D> clazzD, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap) {
+    public <A> List<D> copyList(Class<D> clazzD, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap) {
         return attachList(clazzD, null, fromList, fieldNames, correspondingFieldsMap, null);
     }
 
@@ -193,7 +182,7 @@ public class DataPorter {
      * @param fromList A的数据集
      * @return D的数据集
      */
-    public <D, A> List<D> attachList(List<D> list, List<A> fromList) {
+    public <A> List<D> attachList(List<D> list, List<A> fromList) {
         return attachList(null, list, fromList, null, null, null);
     }
 
@@ -205,7 +194,7 @@ public class DataPorter {
      * @param fromList        A的数据集
      * @param exceptFieldsSet 排除的字段集
      */
-    public <D, A> List<D> attachList(List<D> list, List<A> fromList, Set<String> exceptFieldsSet) {
+    public <A> List<D> attachList(List<D> list, List<A> fromList, Set<String> exceptFieldsSet) {
         return attachList(null, list, fromList, null, null, exceptFieldsSet);
     }
 
@@ -215,7 +204,7 @@ public class DataPorter {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 说明，list可以为空或空集
      */
-    public <D, A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList) {
+    public <A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList) {
         return attachList(clazzD, list, fromList, null, null, null);
     }
 
@@ -225,7 +214,7 @@ public class DataPorter {
      *
      * @param exceptFieldsSet 排除的字段
      */
-    public <D, A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Set<String> exceptFieldsSet) {
+    public <A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Set<String> exceptFieldsSet) {
         return attachList(clazzD, list, fromList, null, null, exceptFieldsSet);
     }
 
@@ -235,9 +224,9 @@ public class DataPorter {
      * @param dList          操作集合
      * @param eraseFieldsSet 要擦除后期数据的字段
      */
-    public <D> List<D> eraseList(List<D> dList, Set<String> eraseFieldsSet) {
+    public List<D> eraseList(List<D> dList, Set<String> eraseFieldsSet) {
         if (dList == null || dList.isEmpty() || eraseFieldsSet == null || eraseFieldsSet.isEmpty()) return dList;
-        return (List<D>) attachList(dList.get(0).getClass(), null, dList, null, null, eraseFieldsSet);
+        return attachList((Class<D>) dList.get(0).getClass(), null, dList, null, null, eraseFieldsSet);
     }
 
     /**
@@ -245,28 +234,28 @@ public class DataPorter {
      * 要求：相同的字段名有相同的数据类型（可解决）
      * 要求：fieldNames当有数据
      */
-    public <D, A> List<D> attachList(List<D> list, List<A> fromList, List<String> fieldNames) {
+    public <A> List<D> attachList(List<D> list, List<A> fromList, List<String> fieldNames) {
         return attachList(null, list, fromList, fieldNames, null, null);
     }
 
     /**
      * 有map无fieldNames有clazzD
      */
-    public <D, A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Map<String, String> correspondingFieldsMap) {
+    public <A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Map<String, String> correspondingFieldsMap) {
         return attachList(clazzD, list, fromList, null, correspondingFieldsMap, null);
     }
 
     /**
      * 有map无fieldNames有clazzD带exceptKeySet
      */
-    public <D, A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    public <A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         return attachList(clazzD, list, fromList, null, correspondingFieldsMap, exceptFieldsSet);
     }
 
     /**
      * 有map有fieldNames无clazzD
      */
-    public <D, A> List<D> attachList(List<D> list, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap) {
+    public <A> List<D> attachList(List<D> list, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap) {
         return attachList(null, list, fromList, fieldNames, correspondingFieldsMap, null);
     }
 
@@ -281,11 +270,10 @@ public class DataPorter {
      * @param fromList               现有的数据集，要将<A>fromList中的数据植入<D>list
      * @param fieldNames             指定D类中哪些字段参与数据合成（为null默认D字段名list,size为0默认A字段名list）
      * @param correspondingFieldsMap <k,v> 用于处理两个类因字段名不同导致的尴尬 k:应当为fieldNames中存在的属于D的字段名，v：应当为A中存在的字段名
-     * @param <D>                    要合成的数据类型
      * @param <A>                    现提供数据的集合元素的数据类型
      * @return 处理后的D类型数据集合
      */
-    public <D, A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    public <A> List<D> attachList(Class<D> clazzD, List<D> list, List<A> fromList, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         if (fromList == null || fromList.isEmpty()) return list;
 
         //1,如果未提供fieldNames则默认使用D类所有字段名
@@ -302,7 +290,7 @@ public class DataPorter {
             fieldNames = extractFieldNames(fromList.get(0).getClass());
         }
 
-        if (list == null) list = new ArrayList<D>();
+        if (list == null) list = new ArrayList();
 
         //2,遍历fromList
         for (A a : fromList) {
@@ -315,11 +303,11 @@ public class DataPorter {
      * 将A类对象a中由fieldNames指定的数据，但是不包括exceptFieldsSet（默认serialVersionUID）中包含的字段，
      * 按照correspondingFieldsMap中配置的对应关系（默认同名对应），拷贝或生成类型D的一个实例
      */
-    private <D, A> D compose(A a, Class<D> clazzD, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
+    private <A> D compose(A a, Class<D> clazzD, List<String> fieldNames, Map<String, String> correspondingFieldsMap, Set<String> exceptFieldsSet) {
         try {
             D d = clazzD.newInstance();
             if (exceptFieldsSet == null) {
-                exceptFieldsSet = new HashSet<String>();
+                exceptFieldsSet = new HashSet();
             }
             exceptFieldsSet.add("serialVersionUID");
             for (String fieldName : fieldNames) {
@@ -358,7 +346,7 @@ public class DataPorter {
      * 需要在子类中重写本方法，根据key值区别处理
      * 默认可以转为String或Date
      */
-    protected <D> void copyValue(D d, Object fieldValueA, Method dSetter, String fieldName) throws IllegalAccessException, InvocationTargetException {
+    protected void copyValue(D d, Object fieldValueA, Method dSetter, String fieldName) throws IllegalAccessException, InvocationTargetException {
         try {
             dSetter.invoke(d, fieldValueA);
         } catch (IllegalArgumentException e) {
