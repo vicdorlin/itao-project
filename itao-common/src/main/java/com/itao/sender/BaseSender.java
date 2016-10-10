@@ -46,7 +46,7 @@ public abstract class BaseSender implements Sender {
     }
 
     public void sendData(Object obj) {
-        this.sendData(obj, (String)null);
+        this.sendData(obj, null);
     }
 
     public void sendData(Object obj, String type) {

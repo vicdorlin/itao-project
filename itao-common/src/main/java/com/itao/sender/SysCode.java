@@ -14,7 +14,7 @@ public class SysCode {
     public String CODENAME = "code";
     public String CODEMSG = "msg";
 
-    public SysCode() {
+    private SysCode() {
     }
 
     public static SysCode newInstance() {
