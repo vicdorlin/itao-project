@@ -28,6 +28,9 @@ public class CommonUtils {
         if (o instanceof Map) {
             return ((Map) o).size() > 0;
         }
+        if (o instanceof CharSequence) {
+            return ((CharSequence) o).length() > 0;
+        }
         return true;
     }
 
@@ -96,7 +99,7 @@ public class CommonUtils {
     public static List<String> extractFieldNames(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         List<String> fieldNames = new ArrayList<String>();
-        if (fields.length > 0){
+        if (fields.length > 0) {
             for (Field field : fields) {
                 fieldNames.add(field.getName());
             }
